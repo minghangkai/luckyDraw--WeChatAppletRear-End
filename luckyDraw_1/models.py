@@ -3,7 +3,6 @@ from django_mysql.models import JSONField
 # Create your models here.
 class User(models.Model):
     openid      = models.CharField(db_index=True, max_length=100, default='0')
-    token       = models.CharField(max_length=255,default='0')
     username    = models.CharField(max_length=40)
     avatarUrl   = models.URLField(max_length=255)
     gender      = models.PositiveSmallIntegerField(default=0)
