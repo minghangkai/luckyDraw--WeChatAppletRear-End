@@ -43,6 +43,7 @@ class Activity(models.Model):
     participantDrawNumber = models.PositiveSmallIntegerField(default=1, null=True)
     participate = models.ManyToManyField('User', related_name='participate')
     phoneNumber = models.CharField(max_length=20, null=True)
+    officialAccountsName = models.CharField(max_length=40, null=True)
 
     def __str__(self):
         return self.activityName
