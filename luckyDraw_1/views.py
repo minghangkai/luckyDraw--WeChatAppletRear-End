@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import json
 import requests
+from jwt import ExpiredSignatureError
 from luckyDraw_1.models import User,Activity,Certification,Prize
 import jwt
 import datetime,time
@@ -18,16 +19,19 @@ def get_user(obj):
     print(type(encryptedString))
     print("encryptedString:")
     print(encryptedString)
-    decryptString = jwt.decode(token, secret, issuer='cyb', algorithms=['HS256'])  # 解密，校验签名
-    print(type(decryptString))
-    print(decryptString)
-    primary_key = (decryptString['data'])['id']
-    print(type(primary_key))
-    print(primary_key)
-    user = User.objects.get(id=primary_key) # 通过openid获取user
-    print(type(user))
-    print(user)
-    return user
+    try:
+        decryptString = jwt.decode(token, secret, issuer='cyb', algorithms=['HS256'])  # 解密，校验签名
+        print(type(decryptString))
+        print(decryptString)
+        primary_key = (decryptString['data'])['id']
+        print(type(primary_key))
+        print(primary_key)
+        user = User.objects.get(id=primary_key) # 通过openid获取user
+        print(type(user))
+        print(user)
+        return user
+    except ExpiredSignatureError:
+        return False
 
 
 def get_openid_session_key(request): # 获取openid和session_key，创建用户数据，并返回加密token给前端
@@ -86,53 +90,121 @@ def check_token(request):
     print(type(encryptedString))
     print("encryptedString:")
     print(encryptedString)
-    decryptString = jwt.decode(encryptedString['token'], secret, issuer='cyb', algorithms=['HS256'])  # 解密，校验签名
-    print(type(decryptString))
-    print(decryptString)
+    try:
+        decryptString = jwt.decode(encryptedString['token'], secret, issuer='cyb', algorithms=['HS256'])  # 解密，校验签名
+        print(type(decryptString))
+        print(decryptString)
+        return HttpResponse('true')  # 没过期
+    except ExpiredSignatureError:
+        return HttpResponse('false')  # 过期，令前端重新调用函数get_openid_session_key
     """endTime = time.localtime(decryptString['exp'])
     now = time.localtime(datetime.datetime.now())"""
-    endTime = decryptString['exp']
-    print(type(endTime))
-    print(endTime)
-    now = time.time()
-    print(type(now))
-    print(now)
-    if not now-endTime:
-        return HttpResponse('false') # 没过期
-    else:
-        return HttpResponse('true') #过期，令前端重新调用函数get_openid_session_key
 
 
-def getUserInfo(request):
+
+def get_user_info(request):
     obj = json.loads(request.body)
     user = get_user(obj)
-    user.username = obj['nickName']
-    user.avatarUrl = obj['avatarUrl']
-    user.city = obj['city']
-    user.country = obj['country']
-    user.gender = obj['gender']
-    user.language = obj['language']
-    user.province = obj['province']
-    user.save()
-    return HttpResponse("hello!")
+    if not user:
+        return HttpResponse('false')  # token过期
+    else:
+        user.username = obj['nickName']
+        user.avatarUrl = obj['avatarUrl']
+        user.city = obj['city']
+        user.country = obj['country']
+        user.gender = obj['gender']
+        user.language = obj['language']
+        user.province = obj['province']
+        user.save()
+        return HttpResponse('true')
 
 def storage_address(request):
     obj = json.loads(request.body)
     print(type(obj))
     print(obj)
     user = get_user(obj)
-    user.contactName = obj['participantName']
-    user.phoneNumber = obj['participantPhoneNumber']
-    user.address = obj['participantAddress']
-    user.save()
-    return HttpResponse('hello')
+    if not user:
+        return HttpResponse('false')  # token过期
+    else:
+        user.contactName = obj['participantName']
+        user.phoneNumber = obj['participantPhoneNumber']
+        user.address = obj['participantAddress']
+        user.save()
+        return HttpResponse('hello')
 
+def get_activity_info(request):
+    obj = json.loads(request.body)
+    print(type(obj))
+    print(obj)
+    user = get_user(obj)
+    if not user:
+        return HttpResponse('false')  # token过期
+    else:
+        newBy = obj['newBy']
+        phoneNum = obj['phoneNum']
+        activityName = obj['activityName']
+        activityDetails = json.dumps(obj['infoOfActivity'])
+        conditionObject = obj['conditionObject']
+        if conditionObject[id] == 0:
+            endTime = datetime.datetime.strptime(conditionObject['info'], "%Y-%m-%d %H:%M:%S")
+            conditionInfo = None
+        elif conditionObject[id] == 1:
+            endTime = None
+            conditionInfo = conditionObject['info']
+        elif conditionObject[id] == 2:
+            endTime = None
+            conditionInfo = None
+        activity = Activity(sponsor=user, certificateOrNot=user.certificate, sponsorWay=newBy, phoneNum=phoneNum, activityName=activityName,
+                            endTime=endTime, activityDetails=activityDetails, conditionType=conditionObject[id], conditionInfo=conditionInfo)
+        # activity.save()
+        if newBy == 1:
+            activity.participantAttention = obj['participantAttention']
+            activity.inviateFriends = obj['inviateFriends']
+            activity.save()
+        elif newBy == 2:
+            activity. = obj['']
+            activity. = obj['']
+            activity. = obj['']
+            activity. = obj['']
+            activity. = obj['']
+            activity. = obj['']
+        elif newBy == 3:
+            activity. = obj['']
+            activity. = obj['']
+            activity. = obj['']
+            activity. = obj['']
+            activity. = obj['']
+            activity. = obj['']
+            activity. = obj['']
+        elif newBy == 4:
+
+
+
+        return HttpResponse({'activityUrl': activity_url,
+                             })
+
+def upload_file(request):
+    if request.method == "POST":    # 请求方法为POST时，进行处理
+        myFile =request.FILES.get("fileName", None)    # 获取上传的文件，如果没有文件，则默认为None
+        if not myFile:
+            return HttpResponse("no files for upload!")
+        else:
+            # 打开特定的文件进行二进制的写操作
+            # print(os.path.exists('/temp_file/'))
+            with open("./luckyDraw_1/static/luckyDraw_1/static/%s" % myFile.name, 'wb+') as f:
+                # 分块写入文件
+                for chunk in myFile.chunks():
+                    f.write(chunk)
+            return HttpResponse("UPload over!")
+    else:
+        return HttpResponse("没有监听到POST请求")
+#         var filesrc = util.fileUpload('luckyDraw_1/upload_file', res.tempFilePaths[0], 'fileName') 前端请求
 
 """def upload_file(request):
     # 请求方法为POST时，进行处理
     if request.method == "POST":
         # 获取上传的文件，如果没有文件，则默认为None
-        File = request.FILES.get("myfile", None)
+
         if File is None:
             return HttpResponse("没有需要上传的文件")
         else:
@@ -145,3 +217,14 @@ def storage_address(request):
             return HttpResponse("UPload over!")
     else:
         return HttpResponse("没有监听到POST请求")"""
+
+"""def upload_file(request):
+    if request.method == 'POST':
+        form = Activity(request.POST, request.FILES)
+        if form.is_valid():
+            # file is saved
+            form.save()
+            return HttpResponseRedirect('/success/url/')
+    else:
+        form = ModelFormWithFileField()
+    return HttpResponse("UPload over!")"""
