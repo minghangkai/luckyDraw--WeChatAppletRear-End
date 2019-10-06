@@ -162,24 +162,26 @@ def get_activity_info(request):
             activity.inviateFriends = obj['inviateFriends']
             activity.save()
         elif newBy == 2:
-            activity. = obj['']
-            activity. = obj['']
-            activity. = obj['']
-            activity. = obj['']
-            activity. = obj['']
-            activity. = obj['']
+            activity.sponsorNickName = obj['initiatorName']
+            activity.participantAttention = obj['participantAttention']
+            activity.shareJurisdiction = obj['shareJurisdiction']
+            activity.allowQuitOrNot = obj['allowQuitOrNot']
+            activity.inviateFriends = obj['inviateFriends']
+            activity.inputCommandOrNot = obj['inputCommandOrNot']
+            activity.save()
         elif newBy == 3:
-            activity. = obj['']
-            activity. = obj['']
-            activity. = obj['']
-            activity. = obj['']
-            activity. = obj['']
-            activity. = obj['']
-            activity. = obj['']
+            activity.officialAccountsName = obj['officialAccountsName']
+            activity.sponsorWechatNumber = obj['initiatorWxNumber']
+            activity.participateWay = obj['participateWay']
+            activity.allowQuitOrNot = obj['allowQuitOrNot']
+            activity.save()
         elif newBy == 4:
-
-
-
+            activity.sponsorNickName = obj['initiatorName']
+            activity.sponsorWechatNumber = obj['initiatorWxNumber']
+            activity.participantDrawNumber = obj['participantDrawNumber']
+            activity.shareJurisdiction = obj['shareJurisdiction']
+            activity.winnerList = obj['winnerList']
+            activity.save()
         return HttpResponse({'activityUrl': activity_url,
                              })
 
