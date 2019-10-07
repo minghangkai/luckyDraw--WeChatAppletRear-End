@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -126,3 +127,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 APPEND_SLASH = False
+
+CRONJOBS = {
+#第一个参数是 cron 表达式，定义定时任务的执行时间。
+#第二个参数是要执行的模块和函数。
+#第三个参数是执行定时脚本时日志文件的路径。
+    # 定时函数输出的内容到指定文件（如果该路径或文件不存在将会自动创建）
+    ('06 15 7 * *', 'luckyDraw_1.cron.create_dir_according_time', '>>/cronjobs/create_dir_according_time.log'),
+}
