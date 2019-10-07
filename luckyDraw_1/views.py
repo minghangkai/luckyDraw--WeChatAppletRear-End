@@ -1,14 +1,17 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 import json
 import requests
 from jwt import ExpiredSignatureError
 from luckyDraw_1.models import User,Activity,Certification,Prize
 import jwt
 import datetime,time
-
+import os
+import time
 
 # Create your views here.
+host = 'http://127.0.0.1:8000/'
+# host = 'https://www.luckydraw.net.cn/'
 
 def get_user(obj):
     print(obj)
@@ -28,10 +31,48 @@ def get_user(obj):
         print(primary_key)
         user = User.objects.get(id=primary_key) # 通过openid获取user
         print(type(user))
-        print(user)
+        #print(user)
         return user
     except ExpiredSignatureError:
         return False
+
+def create_dir_according_time():
+    localtime=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+    print('localtime='+localtime)
+    # 系统当前时间年份
+    year=time.strftime('%Y',time.localtime(time.time()))
+    # 月份
+    month=time.strftime('%m',time.localtime(time.time()))
+    # 日期
+    # day=time.strftime('%d',time.localtime(time.time()))
+    #具体时间 小时分钟毫秒
+    mdhms = time.strftime('%m%d%H%M%S',time.localtime(time.time()))
+    print(os.getcwd())
+    fileYear = os.getcwd()+'/luckyDraw_1/static/luckyDraw_1/uploadfile'+'/'+year
+    print('fileyear'+fileYear)
+    fileMonth = fileYear+'/'+month
+    print('filemonth'+fileMonth)
+    # fileDay=fileMonth+'/'+day
+    if not os.path.exists(fileYear):
+      print('1')
+      os.mkdir(fileYear)
+      os.mkdir(fileMonth)
+
+      # os.mkdir(fileDay)
+    else:
+      if not os.path.exists(fileMonth):
+        print('2')
+        os.mkdir(fileMonth)
+
+    return fileMonth
+
+
+def create_image_url(request, imagepath):
+    print("imagepath=" + str(imagepath))
+    image_data = open(imagepath, "rb").read()
+    return HttpResponse(image_data, content_type="image/png")
+
+
 
 
 def get_openid_session_key(request): # 获取openid和session_key，创建用户数据，并返回加密token给前端
@@ -130,12 +171,13 @@ def storage_address(request):
         user.phoneNumber = obj['participantPhoneNumber']
         user.address = obj['participantAddress']
         user.save()
-        return HttpResponse('hello')
+        return HttpResponse('true')
 
 def get_activity_info(request):
     obj = json.loads(request.body)
+    print("obj的类型为：")
     print(type(obj))
-    print(obj)
+    # print(obj)
     user = get_user(obj)
     if not user:
         return HttpResponse('false')  # token过期
@@ -143,25 +185,30 @@ def get_activity_info(request):
         newBy = obj['newBy']
         phoneNum = obj['phoneNum']
         activityName = obj['activityName']
-        activityDetails = json.dumps(obj['infoOfActivity'])
         conditionObject = obj['conditionObject']
-        if conditionObject[id] == 0:
+        kindOfAcitivity = int(obj['kindOfPrize'])
+        primary_key_of_activity = 0
+        if conditionObject['id'] == 0:
             endTime = datetime.datetime.strptime(conditionObject['info'], "%Y-%m-%d %H:%M:%S")
             conditionInfo = None
-        elif conditionObject[id] == 1:
+        elif conditionObject['id'] == 1:
             endTime = None
             conditionInfo = conditionObject['info']
-        elif conditionObject[id] == 2:
+        elif conditionObject['id'] == 2:
             endTime = None
             conditionInfo = None
-        activity = Activity(sponsor=user, certificateOrNot=user.certificate, sponsorWay=newBy, phoneNum=phoneNum, activityName=activityName,
-                            endTime=endTime, activityDetails=activityDetails, conditionType=conditionObject[id], conditionInfo=conditionInfo)
+        activity = Activity(sponsor=user, certificateOrNot=user.certificate, sponsorWay=newBy, phoneNumber=phoneNum, activityName=activityName,
+                            endTime=endTime, conditionType=conditionObject['id'], conditionInfo=conditionInfo,
+                            kindOfAcitivity=kindOfAcitivity)
         # activity.save()
         if newBy == 1:
+            activityDetails = json.dumps(obj['infoOfActivity'])
             activity.participantAttention = obj['participantAttention']
             activity.inviateFriends = obj['inviateFriends']
+            activity.activityDetails = activityDetails
             activity.save()
         elif newBy == 2:
+            activity.activityDetails = obj['infoOfActivity']
             activity.sponsorNickName = obj['initiatorName']
             activity.participantAttention = obj['participantAttention']
             activity.shareJurisdiction = obj['shareJurisdiction']
@@ -182,25 +229,74 @@ def get_activity_info(request):
             activity.shareJurisdiction = obj['shareJurisdiction']
             activity.winnerList = obj['winnerList']
             activity.save()
-        return HttpResponse({'activityUrl': activity_url,
-                             })
+        primary_key_of_activity = activity.id
+        imageArray = obj['imageArray']
+        primary_key_of_prize = []
+        for index in range(len(imageArray)):
+            if newBy == 4:
+                prize = Prize(prizeName=imageArray[index]['nameOfPrize'],
+                              prizeNumber=imageArray[index]['numberOfPrize'],
+                              winningProbability=imageArray[index]['probity'],
+                              activity=activity)
+            else:
+                prize = Prize(prizeName=imageArray[index]['nameOfPrize'],
+                              prizeNumber=imageArray[index]['numberOfPrize'],
+                              activity=activity)
+            prize.save()
+            primary_key_of_prize.append(prize.id)
+        activity_url = create_dir_according_time()
+        data = {'activityUrl': activity_url,
+                'activityId': primary_key_of_activity,
+                'prizeId': primary_key_of_prize,}
+        data1 = data
+        print(type(data))
+        print(type(json.dumps(data1)))
+        print("111111111")
+        print('primary_key_of_activity'+ str(primary_key_of_activity))
+        return JsonResponse(data)
 
 def upload_file(request):
-    if request.method == "POST":    # 请求方法为POST时，进行处理
-        myFile =request.FILES.get("fileName", None)    # 获取上传的文件，如果没有文件，则默认为None
-        if not myFile:
-            return HttpResponse("no files for upload!")
-        else:
-            # 打开特定的文件进行二进制的写操作
-            # print(os.path.exists('/temp_file/'))
-            with open("./luckyDraw_1/static/luckyDraw_1/static/%s" % myFile.name, 'wb+') as f:
-                # 分块写入文件
-                for chunk in myFile.chunks():
-                    f.write(chunk)
-            return HttpResponse("UPload over!")
+    newBy = int(request.POST.get('newBy'))
+    activityId = request.POST.get('activityId')
+    prizeId = request.POST.get('prizeId')
+    myFile = request.FILES.get("fileName", None)  # 获取上传的文件，如果没有文件，则默认为None
+    # 打开特定的文件进行二进制的写操作
+    # print(os.path.exists('/temp_file/'))
+    myFile.name = activityId + '_' + prizeId + myFile.name
+    filePath = create_dir_according_time() + '/' + myFile.name
+    with open(filePath, 'wb+') as f:
+        # 分块写入文件
+        for chunk in myFile.chunks():
+            f.write(chunk)
+    url = host+'luckyDraw_1/create_image_url/'+filePath
+    print(type(newBy))
+    print('11111')
+    if newBy == 0:
+        return HttpResponse(url)
+    elif newBy == 1:
+        activity = Activity.objects.get(id=activityId)
+        activity.activityPhoto = ''
+        activity.save()
+        prize = Prize.objects.get(id=prizeId)
+        prize.prizePhoto = filePath
+        prize.activity = activity
+        prize.save()
+        return HttpResponse('存储奖品图成功' + filePath)
     else:
-        return HttpResponse("没有监听到POST请求")
-#         var filesrc = util.fileUpload('luckyDraw_1/upload_file', res.tempFilePaths[0], 'fileName') 前端请求
+        activity = Activity.objects.get(id=activityId)
+        if prizeId == 0:
+            activity.activityPhoto = filePath
+            activity.save()
+            return HttpResponse('存储活动头图成功'+filePath)
+        else:
+            prize = Prize.objects.get(id=prizeId)
+            prize.prizePhoto = filePath
+            prize.activity = activity
+            prize.save()
+            return HttpResponse('存储奖品图成功'+filePath)
+
+    #         var filesrc = util.fileUpload('luckyDraw_1/upload_file', res.tempFilePaths[0], 'fileName') 前端请求
+
 
 """def upload_file(request):
     # 请求方法为POST时，进行处理
