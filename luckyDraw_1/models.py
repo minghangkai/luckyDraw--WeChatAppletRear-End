@@ -44,6 +44,7 @@ class Activity(models.Model):
     participate = models.ManyToManyField('User', related_name='participate')
     phoneNumber = models.CharField(max_length=20, null=True)
     officialAccountsName = models.CharField(max_length=40, null=True)
+    kindOfAcitivity = models.SmallIntegerField(default=0, null=True)
 
     def __str__(self):
         return self.activityName
