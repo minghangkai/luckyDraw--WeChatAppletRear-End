@@ -9,4 +9,5 @@ urlpatterns = [
     path('storage_address', views.storage_address, name='storage_address'),
     path('upload_file', views.upload_file, name='upload_file'),
     path('get_activity_info', views.get_activity_info, name='get_activity_info'),
+    path('create_image_url/<path:imagepath>', views.create_image_url, name='create_image_url'),
 ]
