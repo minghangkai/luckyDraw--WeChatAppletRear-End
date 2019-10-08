@@ -245,7 +245,7 @@ def get_activity_info(request):
             prize.save()
             primary_key_of_prize.append(prize.id)
         activity_url = create_dir_according_time()
-        data = {'activityUrl': activity_url,
+        data = {'prizeLen': len(imageArray),
                 'activityId': primary_key_of_activity,
                 'prizeId': primary_key_of_prize,}
         data1 = data
@@ -269,10 +269,11 @@ def upload_file(request):
         for chunk in myFile.chunks():
             f.write(chunk)
     url = host+'luckyDraw_1/create_image_url/'+filePath
-    print(type(newBy))
-    print('11111')
     if newBy == 0:
+        print(str( HttpResponse(url)))
         return HttpResponse(url)
+    # http://127.0.0.1:8000/luckyDraw_1/create_image_url//Users/apple/PycharmProjects/luckyDraw--WeChatAppletRear-End/
+    # luckyDraw_1/static/luckyDraw_1/uploadfile/2019/10/0_0wxd5230cfaaa6e5d93.o6zAJs-4EoVuB_dbionVOX2wp3x8.WOqs3IyIrEau2457b75be1163444072681dd518a1d83.png
     elif newBy == 1:
         activity = Activity.objects.get(id=activityId)
         activity.activityPhoto = ''
