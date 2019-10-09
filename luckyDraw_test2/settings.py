@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'luckyDraw_1',
+    'user',
+    'activity_and_prize',
+    'certification',
 ]
 
 MIDDLEWARE = [
@@ -119,7 +121,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -133,5 +135,5 @@ CRONJOBS = {
 #第二个参数是要执行的模块和函数。
 #第三个参数是执行定时脚本时日志文件的路径。
     # 定时函数输出的内容到指定文件（如果该路径或文件不存在将会自动创建）
-    ('06 15 7 * *', 'luckyDraw_1.cron.create_dir_according_time', '>>/cronjobs/create_dir_according_time.log'),
+    ('16 19 9 * *', 'utils.cron.create_dir_according_time', '>>/cronjobs/create_dir_according_time.log'),
 }
