@@ -12,6 +12,7 @@ class Certification(models.Model):
     PhoneNumber	            = models.CharField(max_length=20, null=True)    # 个人手机号码
     IdPhotoPositive	        = models.URLField(max_length=255, null=True)    # 个人证件正面
     IdPhotoNegative         = models.URLField(max_length=255, null=True)    # 个人证件反面
+    OrganizationName            = models.CharField(max_length=200, null=True)   # 组织名称
 
     def __str__(self):
-        return self.sponsorRealName
+        return self.SponsorRealName

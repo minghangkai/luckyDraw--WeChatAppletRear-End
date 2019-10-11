@@ -15,8 +15,8 @@ class Activity(models.Model):
     ConditionInfo	      = models.PositiveIntegerField(default=1, null=True) # 存总人数
     ConditionNum          = models.PositiveIntegerField(default=0, null=True) # 存现有人数
     SponsorPhoneNumber	  = models.CharField(max_length=20, null=True)  # 活动创建人电话号码
-    SponsorNickName	      = models.CharField(max_length=40, null=True)  # 活动创建人
-    SponsorWechatNumber	  = models.CharField(max_length=255, null=True)  # 活动创建人
+    SponsorNickName	      = models.CharField(max_length=40, null=True)  # 活动创建人名称
+    SponsorWechatNumber	  = models.CharField(max_length=255, null=True)  # 活动创建人微信号
     ParticipantAttention  = models.BooleanField(default=False, null=True)  # 活动参与者关注（快速）
     ShareJurisdiction	  = models.BooleanField(default=False, null=True)  # 活动能否分享（快速、高级）
     AllowQuitOrNot	      = models.BooleanField(default=False, null=True)   # 是否能退出活动（高级、公众号）
@@ -31,7 +31,7 @@ class Activity(models.Model):
     ActivityEnd = models.BooleanField(default=False, null=True)  # 活动是否结束
 
     def __str__(self):
-        return self.activityName
+        return self.ActivityName
 
 
 class Prize(models.Model):
@@ -42,4 +42,4 @@ class Prize(models.Model):
     activity = models.ForeignKey('Activity', on_delete=models.CASCADE, default=1, null=True)  # 连接奖品表
 
     def __str__(self):
-        return self.prizeName
+        return self.PrizeName

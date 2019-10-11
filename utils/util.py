@@ -49,16 +49,17 @@ def create_dir_according_time():
     print('fileyear'+fileYear)
     fileMonth = fileYear+'/'+month
     print('filemonth'+fileMonth)
+    fileCertification = fileMonth+'/'+'certification'
     # fileDay=fileMonth+'/'+day
     if not os.path.exists(fileYear):
-      print('1')
-      os.mkdir(fileYear)
-      os.mkdir(fileMonth)
-
-      # os.mkdir(fileDay)
+        print('1')
+        os.mkdir(fileYear)
+        os.mkdir(fileMonth)
+        os.mkdir(fileCertification)
+        # os.mkdir(fileDay)
     else:
       if not os.path.exists(fileMonth):
         print('2')
         os.mkdir(fileMonth)
-
+        os.mkdir(fileCertification)
     return fileMonth

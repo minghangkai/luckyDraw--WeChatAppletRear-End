@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import json
 import requests
@@ -7,8 +6,7 @@ from user.models import User
 import jwt
 import datetime,time
 from utils.util import get_user
-import os
-import time
+
 
 
 def get_openid_session_key(request): # 获取openid和session_key，创建用户数据，并返回加密token给前端
@@ -34,8 +32,9 @@ def get_openid_session_key(request): # 获取openid和session_key，创建用户
         user = None
     if user:
         primary_key_id = user.id
+        print('数据库中有该用户\n')
     else:
-        # 注册新用户
+        print('注册新用户\n')
         user = User(OpenId=OpenId)
         user.save()
         primary_key_id = user.id  # 主键
@@ -58,12 +57,14 @@ def get_openid_session_key(request): # 获取openid和session_key，创建用户
     """#s = jwt.decode(s, secret, issuer='cyb', algorithms=['HS256'])  # 解密，校验签名
     #print(s)"""
     print(encrypted_string)
+    print('get_openid_session_key运行结束\n')
     return HttpResponse(encrypted_string)
 
 
 def check_token(request):
     secret = b'\x7d\xef\x87\xd5\xf8\xbb\xff\xfc\x80\x91\x06\x91\xfd\xfc\xed\x69'
     encrypted_string = json.loads(request.body)
+    print('check_token开始运行\n')
     print(type(encrypted_string))
     print("encrypted_string:")
     print(encrypted_string)
@@ -71,8 +72,10 @@ def check_token(request):
         decrypt_string = jwt.decode(encrypted_string['token'], secret, issuer='cyb', algorithms=['HS256'])  # 解密，校验签名
         print(type(decrypt_string))
         print(decrypt_string)
+        print('check_token运行结束，返回true\n')
         return HttpResponse('true')  # 没过期
     except ExpiredSignatureError:
+        print('check_token运行结束，返回false\n')
         return HttpResponse('false')  # 过期，令前端重新调用函数get_openid_session_key
     """endTime = time.localtime(decrypt_string['exp'])
     now = time.localtime(datetime.datetime.now())"""
@@ -97,8 +100,6 @@ def get_user_info(request):
 
 def storage_address(request):
     obj = json.loads(request.body)
-    print(type(obj))
-    print(obj)
     user = get_user(obj)
     if not user:
         return HttpResponse('false')  # token过期
@@ -108,3 +109,12 @@ def storage_address(request):
         user.address = obj['participantAddress']
         user.save()
         return HttpResponse('true')
+
+def return_user_luckyDraw_info(request):
+    obj = json.loads(request.body)
+    user = get_user(obj)
+    data = {'CreateActivityNum': user.CreateActivityNum,
+            'ParticipateActivityNum': user.ParticipateActivityNum,
+            'WinNum': user.WinNum}
+
+    return JsonResponse(data)
