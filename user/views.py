@@ -65,13 +65,13 @@ def check_token(request):
     secret = b'\x7d\xef\x87\xd5\xf8\xbb\xff\xfc\x80\x91\x06\x91\xfd\xfc\xed\x69'
     encrypted_string = json.loads(request.body)
     print('check_token开始运行\n')
-    print(type(encrypted_string))
-    print("encrypted_string:")
-    print(encrypted_string)
+    #print(type(encrypted_string))
+    #print("encrypted_string:")
+    #print(encrypted_string)
     try:
         decrypt_string = jwt.decode(encrypted_string['token'], secret, issuer='cyb', algorithms=['HS256'])  # 解密，校验签名
-        print(type(decrypt_string))
-        print(decrypt_string)
+        #print(type(decrypt_string))
+        #print(decrypt_string)
         print('check_token运行结束，返回true\n')
         return HttpResponse('true')  # 没过期
     except ExpiredSignatureError:

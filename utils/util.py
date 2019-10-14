@@ -35,7 +35,7 @@ def get_user(obj):
 
 def create_dir_according_time():
     localtime=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
-    print('localtime='+localtime)
+    #print('localtime='+localtime)
     # 系统当前时间年份
     year=time.strftime('%Y',time.localtime(time.time()))
     # 月份
@@ -44,11 +44,11 @@ def create_dir_according_time():
     # day=time.strftime('%d',time.localtime(time.time()))
     #具体时间 小时分钟毫秒
     mdhms = time.strftime('%m%d%H%M%S',time.localtime(time.time()))
-    print(os.getcwd())
+    #print(os.getcwd())
     fileYear = os.getcwd()+'/uploadfile'+'/'+year
-    print('fileyear'+fileYear)
+    #print('fileyear'+fileYear)
     fileMonth = fileYear+'/'+month
-    print('filemonth'+fileMonth)
+    #print('filemonth'+fileMonth)
     fileCertification = fileMonth+'/'+'certification'
     # fileDay=fileMonth+'/'+day
     if not os.path.exists(fileYear):

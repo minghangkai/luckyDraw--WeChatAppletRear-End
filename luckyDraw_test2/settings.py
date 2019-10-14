@@ -59,8 +59,7 @@ ROOT_URLCONF = 'luckyDraw_test2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -137,3 +137,5 @@ CRONJOBS = {
     # 定时函数输出的内容到指定文件（如果该路径或文件不存在将会自动创建）
     ('16 19 9 * *', 'utils.cron.create_dir_according_time', '>>/cronjobs/create_dir_according_time.log'),
 }
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
