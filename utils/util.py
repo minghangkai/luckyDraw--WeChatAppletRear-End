@@ -11,8 +11,8 @@ import time
 
 
 def get_user(obj):
-    print(obj)
-    print(type(obj))
+    # print(obj)
+    # print(type(obj))
     token = obj['token']
     secret = b'\x7d\xef\x87\xd5\xf8\xbb\xff\xfc\x80\x91\x06\x91\xfd\xfc\xed\x69'
     EncryptedString = token
@@ -21,20 +21,20 @@ def get_user(obj):
     print(EncryptedString)
     try:
         EncryptedString = jwt.decode(token, secret, issuer='cyb', algorithms=['HS256'])  # 解密，校验签名
-        print(type(EncryptedString))
-        print(EncryptedString)
+        # print(type(EncryptedString))
+        # print(EncryptedString)
         primary_key = (EncryptedString['data'])['id']
-        print(type(primary_key))
-        print(primary_key)
+        # print(type(primary_key))
+        # print(primary_key)
         user = User.objects.get(id=primary_key) # 通过openid获取user
-        print(type(user))
+        # print(type(user))
         #print(user)
         return user
     except ExpiredSignatureError:
         return False
 
 def create_dir_according_time():
-    localtime=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+    localtime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
     #print('localtime='+localtime)
     # 系统当前时间年份
     year=time.strftime('%Y',time.localtime(time.time()))

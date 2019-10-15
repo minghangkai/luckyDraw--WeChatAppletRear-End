@@ -8,4 +8,5 @@ urlpatterns = [
     path('get_prize_info', views.get_prize_info, name='get_prize_info'),
     path('return_activity_main_info', views.return_activity_main_info, name='return_activity_main_info'),
     path('create_image_url/<path:imagepath>', views.return_image, name='create_image_url'),
+    path('return_activity_info', views.return_activity_info, name='return_activity_info'),
 ]
