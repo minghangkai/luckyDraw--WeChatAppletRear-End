@@ -4,7 +4,7 @@ from user.models import User
 from django.utils.html import format_html
 # Create your models here.
 class Activity(models.Model):
-    sponsor               = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='sponsor', blank=True) #连接用户表
+    sponsor               = models.ForeignKey('user.User', verbose_name='创建者', on_delete=models.CASCADE, related_name='sponsor', blank=True) #连接用户表
     certificate	  = models.BooleanField('活动创建人是否认证', default=False, null=True, blank=True)   # 活动创建人是否认证
     SponsorWay	          = models.SmallIntegerField('活动创建方式', default=1, null=True, blank=True)  # 活动创建方式：快速、高级、公众号、转盘
     ActivityName	      = models.CharField('活动名称', max_length=60, null=True, blank=True)  # 活动名称
@@ -30,6 +30,7 @@ class Activity(models.Model):
     OfficialAccountsName = models.CharField('需要关注的公众号名称', max_length=40, null=True, blank=True)   # 需要关注的公众号名称（公众号，但新版本已经取消）
     KindOfAcitivity = models.SmallIntegerField('活动奖品种类', default=0, null=True, blank=True)  # 活动奖品种类
     ActivityEnd = models.BooleanField('活动是否结束', default=False, null=True, blank=True)  # 活动是否结束
+    winner = models.ForeignKey('user.User', verbose_name='中奖者', on_delete=models.CASCADE, related_name='winner', blank=True, null=True) #外键连接用户表，表示中奖者
 
     def __str__(self):
         return self.ActivityName

@@ -39,21 +39,23 @@ def get_activity_info(request):
         activityName = obj['activityName']
         conditionObject = obj['conditionObject']
         kindOfAcitivity = int(obj['kindOfPrize'])  # 奖品种类
-
         endTime = None
         conditionInfo = None
-        if conditionObject['id'] == 0:
+        if int(conditionObject['id']) == 0:
+            print('0')
             endTime = datetime.datetime.strptime(conditionObject['info'], "%Y-%m-%d %H:%M:%S")
             conditionInfo = None
-        elif conditionObject['id'] == 1:
+        elif int(conditionObject['id']) == 1:
+            print('1')
             endTime = None
             conditionInfo = conditionObject['info']
-        elif conditionObject['id'] == 2:
+        elif int(conditionObject['id']) == 2:
+            print('2')
             endTime = None
             conditionInfo = None
         activity = Activity(sponsor=user, certificate=user.certificate, SponsorWay=sponsorWay,
                             SponsorPhoneNumber=sponsorPhoneNumber, ActivityName=activityName,
-                            EndTime=endTime, ConditionType=conditionObject['id'], ConditionInfo=conditionInfo,
+                            EndTime=endTime, ConditionType=int(conditionObject['id']), ConditionInfo=conditionInfo,
                             KindOfAcitivity=kindOfAcitivity)
         # activity.save()
         if sponsorWay == 1:
@@ -162,11 +164,11 @@ def return_image(request, imagepath):
     return HttpResponse(image_data, content_type="image/png")
 
 
-def return_activity_main_info(request):
+def return_index_activity_main_info(request):
     activity_num = Activity.objects.filter(ActivityEnd=False).count()
     activity_array = []  # 'activity_photo': , 'activity_sponsor':, 'certificate':, 'activity_end_time':, 'prize_of_acitivity_array':,
     prize_of_an_acitivity_array = []  # 'prize_name': , 'prize_num':
-    activities = Activity.objects.filter(ActivityEnd=False)
+    activities = Activity.objects.filter(ActivityEnd=False, ConditionType=0) # 0为按时间开奖
     for e in activities:
         prizes = e.prize_set.all()
         # print('prizes:')
@@ -193,11 +195,8 @@ def return_activity_main_info(request):
 
 def return_activity_info(request):
     obj = json.loads(request.body)
-    print('obj["activity_id"]:')
-    print(obj['activity_id'])
-    print(type(obj['activity_id']))
     activity = Activity.objects.get(id=obj['activity_id'])
-    prizes = activity.prize_set.all()
+    prizes = serializers.serialize("json", activity.prize_set.all())
     if activity.ActivityPhoto == '':
         activity_photo = str(activity.ActivityPhoto)
     else:
@@ -207,9 +206,183 @@ def return_activity_info(request):
     for e in participates:
         participate_avatar = e.AvatarUrl
         participate_avatar_array.append(participate_avatar)
-    dict_of_activity = {'activity_photo': activity_photo, 'activity_certificate': activity.certificate,
-                        'activity_details': activity.ActivityDetails, 'activity_end_time': activity.EndTime,
+    dict_of_activity = {'activity_photo': str(activity_photo), 'activity_certificate': activity.certificate,
+                        'activity_details': activity.ActivityDetails, 'activity_end_time': str(activity.EndTime)[:-3], # str(e.EndTime)[:-3]
                         'activity_prizes': prizes, 'sponsor_nickname': activity.SponsorNickName,
                         'activity_end': activity.ActivityEnd, 'share_jurisdiction': activity.ShareJurisdiction,
-                        'participate_avatar_array': participate_avatar_array}
-    return JsonResponse(str(dict_of_activity), safe=False)
+                        'participate_avatar_array': participate_avatar_array, 'activity_end': activity.ActivityEnd}
+    """print('dict_of_activity:')
+    print(type(dict_of_activity))
+    dict_of_activity_json = json.dumps(dict_of_activity)"""
+    # dict_of_activity_json = serializers.serialize("json", dict_of_activity)
+    return JsonResponse(dict_of_activity, safe=False)
+    #return  JsonResponse(dict_of_activity)
+
+
+def participate_activity(request):
+    obj = json.loads(request.body)
+    user = get_user(obj)
+    print('user')
+    print(user)
+    activity = Activity.objects.get(id=int(obj['activity_id']))
+    activity.participate.add(user)
+    activity.save()
+    user.ParticipateActivityNum = user.ParticipateActivityNum + 1
+    user.save()
+    return HttpResponse('用户参与活动成功')
+
+def return_selfhelp_activity_main_info(request):
+    activity_num = Activity.objects.filter(ActivityEnd=False).count()
+    activity_array = []  # 'activity_photo': , 'activity_sponsor':, 'certificate':, 'activity_end_time':, 'prize_of_acitivity_array':,
+    prize_of_an_acitivity_array = []  # 'prize_name': , 'prize_num':
+    activities = Activity.objects.filter(ActivityEnd=False, ConditionType=1) # 1为按人数开奖
+    for e in activities:
+        prizes = e.prize_set.all()
+        # print('prizes:')
+        # print(prizes)
+        # print(type(prizes))
+        prize_array = []
+        for f in prizes:
+            dict_prize = {'prize_name': f.PrizeName, 'prize_num': f.PrizeNumber}
+            prize_array.append(dict_prize)
+        if e.ActivityPhoto == '':
+            activity_photo = str(e.ActivityPhoto)
+        else:
+            activity_photo = str(e.prize_set.all()[0].PrizePhoto)
+        print('endTime')
+        print(e.EndTime)
+        dict_activity = {'activity_id': e.id, 'activity_photo': activity_photo, 'activity_sponsor': e.SponsorNickName,
+                         'certificate': e.certificate, 'participate_number': e.ConditionInfo,
+                         'prize_of_activity_array': prize_array}  # str(e.EndTime)[:-3]:将datetime类型转为字符串
+        activity_array.append(dict_activity)
+        # print('activity_array:')
+        # print(type(activity_array))
+    # data = serializers.serialize("json", activity_array)
+    print(str(activity_array))
+    return JsonResponse(activity_array, safe=False)
+
+
+def return_personal_paticipate_info(request):
+    obj = json.loads(request.body)
+    user = get_user(obj)
+    # activities = Activity.objects.filter(participate=user)
+    activities = user.participate.all()
+    activity_array = []
+    end_string = ''
+    for e in activities:
+        prizes = e.prize_set.all()
+        prize_array = []
+
+        for f in prizes:
+            dict_prize = {'prize_name': f.PrizeName, 'prize_num': f.PrizeNumber}
+            prize_array.append(dict_prize)
+        if e.ActivityPhoto == '':
+            activity_photo = str(e.ActivityPhoto)
+        else:
+            activity_photo = str(e.prize_set.all()[0].PrizePhoto)
+        if e.ActivityEnd == False:
+            end_string = '[进行中]'
+            color_string = '#64DD17'
+        else:
+            end_string = '[已结束]'
+            color_string = '#E57373'
+        if e.ConditionType == 0:
+            dict_activity = {'activity_id': e.id, 'activity_photo': activity_photo,
+                             'activity_sponsor': e.SponsorNickName, 'condition_type': '按时间开奖',
+                             'info': str(e.EndTime)[:-3], 'end': end_string, 'color': color_string,
+                             'prize_of_activity_array': prize_array, 'now_participate_number': e.ConditionNum}  # str(e.EndTime)[:-3]:将datetime类型转为字符串
+        elif e.ConditionType == 1:
+            dict_activity = {'activity_id': e.id, 'activity_photo': activity_photo,
+                             'activity_sponsor': e.SponsorNickName, 'condition_type': '按人数开奖',
+                             'info': '满'+str(e.ConditionInfo)+'人开奖', 'end': end_string, 'color': color_string,
+                             'prize_of_activity_array': prize_array, 'now_participate_number': e.ConditionNum}
+        elif e.ConditionType ==2:
+            dict_activity = {'activity_id': e.id, 'activity_photo': activity_photo,
+                             'activity_sponsor': e.SponsorNickName, 'condition_type': '发起人手动开奖',
+                             'info': '', 'end': end_string, 'color': color_string,
+                             'prize_of_activity_array': prize_array,'now_participate_number': e.ConditionNum}
+        activity_array.append(dict_activity)
+    return JsonResponse(activity_array, safe=False)
+
+def return_personal_create_info(request):
+    obj = json.loads(request.body)
+    user = get_user(obj)
+    activities = Activity.objects.filter(sponsor=user)
+    activity_array = []
+    end_string = ''
+    for e in activities:
+        prizes = e.prize_set.all()
+        prize_array = []
+        for f in prizes:
+            dict_prize = {'prize_name': f.PrizeName, 'prize_num': f.PrizeNumber}
+            prize_array.append(dict_prize)
+        if e.ActivityPhoto == '':
+            activity_photo = str(e.ActivityPhoto)
+        else:
+            activity_photo = str(e.prize_set.all()[0].PrizePhoto)
+        if e.ActivityEnd == False:
+            end_string = '[进行中]'
+            color_string = '#64DD17'
+
+        else:
+            end_string = '[已结束]'
+            color_string = '#E57373'
+        if e.ConditionType == 0:
+            dict_activity = {'activity_id': e.id, 'activity_photo': activity_photo,
+                             'activity_sponsor': e.SponsorNickName, 'condition_type': '按时间开奖',
+                             'info': str(e.EndTime)[:-3], 'end': end_string, 'color': color_string,
+                             'prize_of_activity_array': prize_array,
+                             'now_participate_number': e.ConditionNum}  # str(e.EndTime)[:-3]:将datetime类型转为字符串
+        elif e.ConditionType == 1:
+            dict_activity = {'activity_id': e.id, 'activity_photo': activity_photo,
+                             'activity_sponsor': e.SponsorNickName, 'condition_type': '按人数开奖',
+                             'info': '满' + str(e.ConditionInfo) + '人开奖', 'end': end_string, 'color': color_string,
+                             'prize_of_activity_array': prize_array, 'now_participate_number': e.ConditionNum}
+        elif e.ConditionType == 2:
+            dict_activity = {'activity_id': e.id, 'activity_photo': activity_photo,
+                             'activity_sponsor': e.SponsorNickName, 'condition_type': '发起人手动开奖',
+                             'info': '', 'end': end_string, 'color': color_string,
+                             'prize_of_activity_array': prize_array, 'now_participate_number': e.ConditionNum}
+        activity_array.append(dict_activity)
+    return JsonResponse(activity_array, safe=False)
+
+def return_personal_win_info(request):
+    obj = json.loads(request.body)
+    user = get_user(obj)
+    end_string = ''
+    activities = Activity.objects.filter(winner=user)
+    activity_array = []
+    for e in activities:
+        prizes = e.prize_set.all()
+        prize_array = []
+        for f in prizes:
+            dict_prize = {'prize_name': f.PrizeName, 'prize_num': f.PrizeNumber}
+            prize_array.append(dict_prize)
+        if e.ActivityPhoto == '':
+            activity_photo = str(e.ActivityPhoto)
+        else:
+            activity_photo = str(e.prize_set.all()[0].PrizePhoto)
+        if e.ActivityEnd == False:
+            end_string = '[进行中]'
+            color_string = '#64DD17'
+        else:
+            end_string = '[已结束]'
+            color_string = '#E57373'
+        if e.ConditionType == 0:
+            dict_activity = {'activity_id': e.id, 'activity_photo': activity_photo,
+                             'activity_sponsor': e.SponsorNickName, 'condition_type': '按时间开奖',
+                             'info': str(e.EndTime)[:-3], 'end': end_string, 'color': color_string,
+                             'prize_of_activity_array': prize_array,
+                             'now_participate_number': e.ConditionNum}  # str(e.EndTime)[:-3]:将datetime类型转为字符串
+        elif e.ConditionType == 1:
+            dict_activity = {'activity_id': e.id, 'activity_photo': activity_photo,
+                             'activity_sponsor': e.SponsorNickName, 'condition_type': '按人数开奖',
+                             'info': '满' + str(e.ConditionInfo) + '人开奖', 'end': end_string, 'color': color_string,
+                             'prize_of_activity_array': prize_array, 'now_participate_number': e.ConditionNum}
+        elif e.ConditionType == 2:
+            dict_activity = {'activity_id': e.id, 'activity_photo': activity_photo,
+                             'activity_sponsor': e.SponsorNickName, 'condition_type': '发起人手动开奖',
+                             'info': '', 'end': end_string, 'color': color_string,
+                             'prize_of_activity_array': prize_array, 'now_participate_number': e.ConditionNum}
+        activity_array.append(dict_activity)
+    return JsonResponse(activity_array, safe=False)
