@@ -135,7 +135,8 @@ CRONJOBS = {
 #第二个参数是要执行的模块和函数。
 #第三个参数是执行定时脚本时日志文件的路径。
     # 定时函数输出的内容到指定文件（如果该路径或文件不存在将会自动创建）
-    ('16 19 9 * *', 'utils.cron.create_dir_according_time', '>>/cronjobs/create_dir_according_time.log'),
+    ('0 0 * * *', 'user.cron.create_dir_according_time', '>> /Users/apple/create_dir_according_time.log'),  # 分钟 小时 号 月 周几
+    ('*/ * * * *', 'activity_and_prize.cron.timed_draw', '>> /Users/apple/create_dir_according_time.log'),  # 分钟 小时 号 月 周几
 }
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
