@@ -1,10 +1,10 @@
-from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import json
-from utils.util import get_user, create_dir_according_time
-from activity_and_prize.models import Activity, Prize
-from user.models import User
-import datetime, os, time
+from utils.util import get_user
+from activity_and_prize.models import Activity, Prize, InviteArray
+import datetime
+import os
+import time
 from django.core import serializers
 
 host = 'http://127.0.0.1:8000/'
@@ -225,8 +225,8 @@ def participate_activity(request):
     print('user')
     print(user)
     activity = Activity.objects.get(id=int(obj['activity_id']))
-    activity.participate.add(user)
-    activity.save()
+    invite_array = InviteArray(activity=activity, participant=user)
+    invite_array.save()
     user.ParticipateActivityNum = user.ParticipateActivityNum + 1
     user.save()
     return HttpResponse('用户参与活动成功')

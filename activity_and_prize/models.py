@@ -26,7 +26,7 @@ class Activity(models.Model):
     ParticipateWay	      = models.BooleanField('活动参与途径（公众号）', default=False, null=True, blank=True)   # 活动参与途径（公众号）
     WinnerList            = models.BooleanField('显示中奖者名单（转盘）', default=False, null=True, blank=True)   # 显示中奖者名单（转盘）
     ParticipantDrawNumber = models.PositiveSmallIntegerField('参与者的抽奖次数（转盘）', default=1, null=True, blank=True)  # 参与者的抽奖次数（转盘）
-    participate = models.ManyToManyField('user.User', related_name='participate', blank=True)   # 活动参与者，连接用户表
+    participate = models.ManyToManyField('user.User', related_name='participate', blank=True, through='InviteArray', through_fields=('activity', 'participant'))   # 活动参与者，连接用户表
     OfficialAccountsName = models.CharField('需要关注的公众号名称', max_length=40, null=True, blank=True)   # 需要关注的公众号名称（公众号，但新版本已经取消）
     KindOfAcitivity = models.SmallIntegerField('活动奖品种类', default=0, null=True, blank=True)  # 活动奖品种类
     ActivityEnd = models.BooleanField('活动是否结束', default=False, null=True, blank=True)  # 活动是否结束
@@ -45,3 +45,14 @@ class Prize(models.Model):
 
     def __str__(self):
         return self.PrizeName
+
+
+class InviteArray(models.Model):
+    activity = models.ForeignKey('Activity', verbose_name='活动ID', on_delete=models.CASCADE, related_name='activity', blank=True) #连接活动表
+    participant = models.ForeignKey('user.User', verbose_name='参与者', on_delete=models.CASCADE, related_name='participant', blank=True) #连接用户表
+    invite_1 = models.ForeignKey('user.User', verbose_name='被邀请人1', on_delete=models.CASCADE, related_name='invite_1', blank=True, null=True)
+    invite_2 = models.ForeignKey('user.User', verbose_name='被邀请人2', on_delete=models.CASCADE, related_name='invite_2', blank=True, null=True)
+    invite_3 = models.ForeignKey('user.User', verbose_name='被邀请人3', on_delete=models.CASCADE, related_name='invite_3', blank=True, null=True)
+    invite_4 = models.ForeignKey('user.User', verbose_name='被邀请人4', on_delete=models.CASCADE, related_name='invite_4', blank=True, null=True)
+    invite_5 = models.ForeignKey('user.User', verbose_name='被邀请人5', on_delete=models.CASCADE, related_name='invite_5', blank=True, null=True)
+
