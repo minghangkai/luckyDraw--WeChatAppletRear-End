@@ -5,7 +5,6 @@ import requests
 from jwt import ExpiredSignatureError
 from user.models import User
 import jwt
-import datetime,time
 import os
 import time
 
