@@ -1,0 +1,202 @@
+from django.contrib.sites import requests
+from django.shortcuts import render
+from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
+import json
+from utils.util import get_user, create_dir_according_time, APPID, MCHID, KEY, NOTIFY_URL
+from certification.models import Certification
+import hashlib
+import xmltodict
+import time
+import random
+import string
+import datetime
+from django.core import serializers
+
+# Create your views here.
+
+host = 'http://127.0.0.1:8000/'
+# host = 'https://www.luckydraw.net.cn/'
+
+def get_orginization_certificate_info(request):
+    certificationKind = request.POST.get('certificationKind')
+    print(type(certificationKind))
+    print('certificationKind: ')
+    print(certificationKind)
+    orginizationName = request.POST.get('orginizationName')
+    myFile = request.FILES.get("fileName", None)  # 获取上传的文件，如果没有文件，则默认为None
+    myFile.name = '组织认证_' + orginizationName + '_' + myFile.name
+    """filePath = create_dir_according_time() + '/certification/' + myFile.name
+    with open(filePath, 'wb+') as f:
+        # 分块写入文件
+        for chunk in myFile.chunks():
+            f.write(chunk)
+    filePath = host + 'activity_and_prize/create_image_url/' + filePath"""
+    if certificationKind != 2:
+        unifiedSocialCred = request.POST.get('unifiedSocialCred')
+        principalName = request.POST.get('principalName')
+        certification = Certification(CertificateWay=certificationKind, UnifiedSocialCreditCode=unifiedSocialCred,
+                                      LegalRepresentativeName=principalName, OrganizationName=orginizationName,
+                                      OrganizationIdPhoto=myFile)
+        certification.save()
+    else:
+        unifiedSocialCred = request.POST.get('unifiedSocialCred')
+        principalName = request.POST.get('principalName')
+        certification = Certification(CertificateWay=certificationKind, UnifiedSocialCreditCode=unifiedSocialCred,
+                                      LegalRepresentativeName=principalName, OrganizationName=orginizationName,
+                                      OrganizationIdPhoto=filePath)
+        certification.save()
+    return HttpResponse('上传认证图片成功')
+    # http://127.0.0.1:8000/activity_and_prize/create_image_url//Users/apple/PycharmProjects/luckyDraw--WeChatAppletRear-End/
+    # uploadfile/2019/10/0_0wxd5230cfaaa6e5d93.o6zAJs-4EoVuB_dbionVOX2wp3x8.WOqs3IyIrEau2457b75be1163444072681dd518a1d83.png
+
+
+def get_personal_certificate_info_positive(request):
+    certificationKind = request.POST.get('certificationKind')
+    IdType = request.POST.get('kindForCredentials')
+    IdNumber = request.POST.get('credentialsNumber')
+    PhoneNumber = request.POST.get('phoneNum')
+    SponsorRealName = request.POST.get('realName')
+    myFile = request.FILES.get("fileName", None)
+    myFile.name = '认证人正面_' + SponsorRealName + '_' + myFile.name
+    """filePath = create_dir_according_time() + '/certification/' + myFile.name
+    with open(filePath, 'wb+') as f:
+        # 分块写入文件
+        for chunk in myFile.chunks():
+            f.write(chunk)
+    #filePath = host + 'activity_and_prize/create_image_url/' + filePath
+    print('filePath')
+    print(filePath)
+    print(type(filePath))"""
+    certification = Certification(CertificateWay=certificationKind, IdType=IdType,
+                                  IdNumber=IdNumber, PhoneNumber=PhoneNumber, SponsorRealName=SponsorRealName,
+                                  IdPhotoPositive=myFile)
+    certification.save()
+    certification_id = certification.id
+    print('插入正面的图片id：')
+    print(certification_id)
+    return HttpResponse(certification_id)
+
+def get_personal_certificate_info_negative(request):
+    SponsorRealName = request.POST.get('realName')
+    print('sponsorName:')
+    print(SponsorRealName)
+    print(type(SponsorRealName))
+    certification_id = request.POST.get('certification_id')
+    print('certification_id:')
+    print(certification_id)
+    print(type(certification_id))
+    certification_id = int(certification_id)
+    print('certification_id:')
+    print(certification_id)
+    print(type(certification_id))
+    certification = Certification.objects.get(id=certification_id)
+    myFile = request.FILES.get("fileName", None)
+    myFile.name = '认证人反面_' + SponsorRealName + '_' + myFile.name
+    """filePath = create_dir_according_time() + '/certification/' + myFile.name
+    with open(filePath, 'wb+') as f:
+        # 分块写入文件
+        for chunk in myFile.chunks():
+            f.write(chunk)
+    #filePath = host + 'activity_and_prize/create_image_url/' + filePath
+    IdPhotoNegative = filePath"""
+    certification.IdPhotoNegative = myFile  # IdPhotoNegative
+    certification.save()
+    print('插入反面的图片id：')
+    print(certification.id)
+    return  HttpResponse('成功上传个人证件背面')
+
+def pay(request):
+    obj = json.loads(request.body)
+    user = get_user(obj)
+    open_id = user.OpenId
+
+
+# 生成nonce_str
+def generate_randomStr():
+    return ''.join(random.sample(string.ascii_letters + string.digits, 32))
+
+# 生成签名
+def generate_sign(param):
+    stringA = ''
+
+    ks = sorted(param.keys())
+    # 参数排序
+    for k in ks:
+        stringA += k + "=" + str(param[k]) + "&"
+    # 拼接商户KEY
+    stringSignTemp = stringA + "key=" + KEY
+
+    # md5加密
+    hash_md5 = hashlib.md5(stringSignTemp.encode('utf8'))
+    sign = hash_md5.hexdigest().upper()
+
+    return sign
+
+
+# 发送xml请求
+def send_xml_request(url, param):
+    # dict 2 xml
+    param = {'root': param}
+    xml = xmltodict.unparse(param)
+
+    response = requests.post(url, data=xml.encode('utf-8'), headers={'Content-Type': 'text/xml'})
+    # xml 2 dict
+    msg = response.text
+    xmlmsg = xmltodict.parse(msg)
+
+    return xmlmsg
+
+
+def get_wx_pay_order_id():
+    return str(int(time.time()))
+
+# 统一下单
+def generate_bill(out_trade_no, openid):
+    url = "https://api.mch.weixin.qq.com/pay/unifiedorder"
+    nonce_str = generate_randomStr()  # 订单中加nonce_str字段记录（回调判断使用）
+    out_trade_no = get_wx_pay_order_id()  # 支付单号，只能使用一次，不可重复支付
+
+    '''
+    order.out_trade_no = out_trade_no
+    order.nonce_str = nonce_str
+    order.save()
+    '''
+
+    # 1. 参数
+    param = {
+        "appid": APPID,
+        "mch_id": MCHID,  # 商户号
+        "nonce_str": nonce_str,  # 随机字符串
+        "body": 'TEST_pay',  # 支付说明
+        "out_trade_no": out_trade_no,  # 自己生成的订单号
+        "total_fee": 99,
+        "spbill_create_ip": '127.0.0.1',  # 发起统一下单的ip
+        "notify_url": NOTIFY_URL,
+        "trade_type": 'JSAPI',  # 小程序写JSAPI
+        "openid": openid,
+    }
+    # 2. 统一下单签名
+    sign = generate_sign(param)
+    param["sign"] = sign  # 加入签名
+    # 3. 调用接口
+    xmlmsg = send_xml_request(url, param)
+    # 4. 获取prepay_id
+    if xmlmsg['xml']['return_code'] == 'SUCCESS':
+        if xmlmsg['xml']['result_code'] == 'SUCCESS':
+            prepay_id = xmlmsg['xml']['prepay_id']
+            # 时间戳
+            timeStamp = str(int(time.time()))
+            # 5. 根据文档，六个参数，否则app提示签名验证失败，https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_12
+            data = {
+                "appid": APPID,
+                "partnerid": MCHID,
+                "prepayid": prepay_id,
+                "package": "Sign=WXPay",
+                "noncestr": nonce_str,
+                "timestamp": timeStamp,
+            }  # 6. paySign签名
+            paySign = generate_sign(data)
+            data["paySign"] = paySign  # 加入签名
+            # 7. 传给前端的签名后的参数
+            return data

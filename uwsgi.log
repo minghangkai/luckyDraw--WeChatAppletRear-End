@@ -1,0 +1,861 @@
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 31 16:46:36 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-39) on 31 October 2019 03:36:42
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+writing pidfile to /home/luckyDraw/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/luckyDraw
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.7.4 (default, Oct 31 2019, 10:43:32)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+PEP 405 virtualenv detected: /home/luckyDraw/venv
+Set PythonHome to /home/luckyDraw/venv
+Python main interpreter initialized at 0xe3de60
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 250128 bytes (244 KB) for 4 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0xe3de60 pid: 9064 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 9064)
+spawned uWSGI worker 1 (pid: 9065, cores: 2)
+spawned uWSGI worker 2 (pid: 9066, cores: 2)
+Not Found: /user/get_user_phone_number
+[pid: 9066|app: 0|req: 1/1] 39.176.195.201 () {64 vars in 1174 bytes} [Thu Oct 31 16:47:04 2019] POST /user/get_user_phone_number => generated 3356 bytes in 127 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+check_token开始运行
+
+check_token运行结束，返回true
+
+[pid: 9066|app: 0|req: 2/2] 39.176.195.201 () {64 vars in 1154 bytes} [Thu Oct 31 16:47:14 2019] POST /user/check_token => generated 4 bytes in 2 msecs (HTTP/1.1 200) 3 headers in 107 bytes (1 switches on core 1)
+<class 'str'>
+EncryptedString:
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NzI1NDk4MjAsImlhdCI6MTU3MjUzOTAyMCwiaXNzIjoiY3liIiwiZGF0YSI6eyJpZCI6MSwiT3BlbklkIjoib2tTc0I1WmgxaEowYjRRSnQ3ekhLMVVtZGZwVSJ9fQ.ELmJLpOTHNFkBR5F_K8RNVwz3IS971ge_ya0Kpa1_Pg
+0
+Internal Server Error: /activity_and_prize/get_activity_info
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 46, in get_activity_info
+    endTime = datetime.datetime.strptime(conditionObject['info'], "%Y-%m-%d %H:%M:%S")
+  File "/usr/local/python3/lib/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/usr/local/python3/lib/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '2019-10-33 00:00:00' does not match format '%Y-%m-%d %H:%M:%S'
+[pid: 9065|app: 0|req: 1/3] 39.176.195.201 () {64 vars in 1194 bytes} [Thu Oct 31 16:47:14 2019] POST /activity_and_prize/get_activity_info => generated 72286 bytes in 151 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+check_token开始运行
+
+check_token运行结束，返回true
+
+[pid: 9066|app: 0|req: 3/4] 39.176.195.201 () {64 vars in 1154 bytes} [Thu Oct 31 16:47:15 2019] POST /user/check_token => generated 4 bytes in 1 msecs (HTTP/1.1 200) 3 headers in 107 bytes (1 switches on core 1)
+<class 'str'>
+EncryptedString:
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NzI1NDk4MjAsImlhdCI6MTU3MjUzOTAyMCwiaXNzIjoiY3liIiwiZGF0YSI6eyJpZCI6MSwiT3BlbklkIjoib2tTc0I1WmgxaEowYjRRSnQ3ekhLMVVtZGZwVSJ9fQ.ELmJLpOTHNFkBR5F_K8RNVwz3IS971ge_ya0Kpa1_Pg
+[pid: 9065|app: 0|req: 2/5] 39.176.195.201 () {64 vars in 1184 bytes} [Thu Oct 31 16:47:15 2019] POST /user/return_user_luckyDraw_info => generated 66 bytes in 5 msecs (HTTP/1.1 200) 3 headers in 100 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/get_prize_info
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 130, in get_prize_info
+    activityId = int(activityId)
+ValueError: invalid literal for int() with base 10: '[object Undefined]'
+
+[pid: 9066|app: 0|req: 4/6] 39.176.195.201 () {44 vars in 1032 bytes} [Thu Oct 31 16:47:15 2019] POST /activity_and_prize/get_prize_info => generated 60515 bytes in 84 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 31 20:31:16 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-39) on 31 October 2019 03:36:42
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+writing pidfile to /home/luckyDraw/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/luckyDraw
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.7.4 (default, Oct 31 2019, 10:43:32)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+PEP 405 virtualenv detected: /home/luckyDraw/venv
+Set PythonHome to /home/luckyDraw/venv
+Python main interpreter initialized at 0x16d1ee0
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 250128 bytes (244 KB) for 4 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x16d1ee0 pid: 7330 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 7330)
+spawned uWSGI worker 1 (pid: 7335, cores: 2)
+spawned uWSGI worker 2 (pid: 7336, cores: 2)
+[pid: 7336|app: 0|req: 1/1] 39.176.195.201 () {44 vars in 1030 bytes} [Thu Oct 31 20:31:25 2019] POST /activity_and_prize/upload_file_json => generated 224 bytes in 117 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 0)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.VtrZDAXfu2xc2457b75be1163444072681dd518a1d83.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.VtrZDAXfu2xc2457b75be1163444072681dd518a1d83.png'
+[pid: 7336|app: 0|req: 2/2] 39.176.195.201 () {54 vars in 1442 bytes} [Thu Oct 31 20:31:25 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.VtrZDAXfu2xc2457b75be1163444072681dd518a1d83.png => generated 62780 bytes in 66 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.VtrZDAXfu2xc2457b75be1163444072681dd518a1d83.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.VtrZDAXfu2xc2457b75be1163444072681dd518a1d83.png'
+[pid: 7336|app: 0|req: 3/3] 39.176.195.201 () {54 vars in 1431 bytes} [Thu Oct 31 20:35:34 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.VtrZDAXfu2xc2457b75be1163444072681dd518a1d83.png => generated 63257 bytes in 55 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 31 20:36:14 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-39) on 31 October 2019 03:36:42
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+writing pidfile to /home/luckyDraw/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/luckyDraw
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.7.4 (default, Oct 31 2019, 10:43:32)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+PEP 405 virtualenv detected: /home/luckyDraw/venv
+Set PythonHome to /home/luckyDraw/venv
+Python main interpreter initialized at 0x18c2ee0
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 250128 bytes (244 KB) for 4 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x18c2ee0 pid: 8014 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 8014)
+spawned uWSGI worker 1 (pid: 8015, cores: 2)
+spawned uWSGI worker 2 (pid: 8016, cores: 2)
+[pid: 8015|app: 0|req: 1/1] 39.176.195.201 () {44 vars in 1036 bytes} [Thu Oct 31 20:36:21 2019] POST /activity_and_prize/upload_file_json => generated 225 bytes in 109 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 0)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.bD3hIztQDmDPfde6d6f13c5cc4438f7afea385fc6e85.jpg
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.bD3hIztQDmDPfde6d6f13c5cc4438f7afea385fc6e85.jpg'
+[pid: 8015|app: 0|req: 2/2] 39.176.195.201 () {54 vars in 1443 bytes} [Thu Oct 31 20:36:22 2019] GET //activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.bD3hIztQDmDPfde6d6f13c5cc4438f7afea385fc6e85.jpg => generated 62781 bytes in 75 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.bD3hIztQDmDPfde6d6f13c5cc4438f7afea385fc6e85.jpg
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.bD3hIztQDmDPfde6d6f13c5cc4438f7afea385fc6e85.jpg'
+[pid: 8015|app: 0|req: 3/3] 39.176.195.201 () {54 vars in 1432 bytes} [Thu Oct 31 20:36:27 2019] GET //activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.bD3hIztQDmDPfde6d6f13c5cc4438f7afea385fc6e85.jpg => generated 63258 bytes in 46 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 31 20:37:00 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-39) on 31 October 2019 03:36:42
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+writing pidfile to /home/luckyDraw/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/luckyDraw
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:9090).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 31 20:37:27 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-39) on 31 October 2019 03:36:42
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+writing pidfile to /home/luckyDraw/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/luckyDraw
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.7.4 (default, Oct 31 2019, 10:43:32)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+PEP 405 virtualenv detected: /home/luckyDraw/venv
+Set PythonHome to /home/luckyDraw/venv
+Python main interpreter initialized at 0xfd1ee0
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 250128 bytes (244 KB) for 4 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0xfd1ee0 pid: 8230 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 8230)
+spawned uWSGI worker 1 (pid: 8231, cores: 2)
+spawned uWSGI worker 2 (pid: 8232, cores: 2)
+[pid: 8232|app: 0|req: 1/1] 39.176.195.201 () {44 vars in 1034 bytes} [Thu Oct 31 20:37:39 2019] POST /activity_and_prize/upload_file_json => generated 225 bytes in 107 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 0)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8YaUtaH90OIk770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8YaUtaH90OIk770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 8232|app: 0|req: 2/2] 39.176.195.201 () {54 vars in 1443 bytes} [Thu Oct 31 20:37:39 2019] GET //activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8YaUtaH90OIk770b1d57104612ea4de11c84d03d9dc4.png => generated 62781 bytes in 61 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8YaUtaH90OIk770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8YaUtaH90OIk770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 8232|app: 0|req: 3/3] 39.176.195.201 () {54 vars in 1432 bytes} [Thu Oct 31 20:37:42 2019] GET //activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8YaUtaH90OIk770b1d57104612ea4de11c84d03d9dc4.png => generated 63258 bytes in 69 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 31 20:38:53 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-39) on 31 October 2019 03:36:42
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+writing pidfile to /home/luckyDraw/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/luckyDraw
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.7.4 (default, Oct 31 2019, 10:43:32)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+PEP 405 virtualenv detected: /home/luckyDraw/venv
+Set PythonHome to /home/luckyDraw/venv
+Python main interpreter initialized at 0x148fee0
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 250128 bytes (244 KB) for 4 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x148fee0 pid: 8433 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 8433)
+spawned uWSGI worker 1 (pid: 8435, cores: 2)
+spawned uWSGI worker 2 (pid: 8436, cores: 2)
+[pid: 8436|app: 0|req: 1/1] 39.176.195.201 () {44 vars in 1034 bytes} [Thu Oct 31 20:39:01 2019] POST /activity_and_prize/upload_file_json => generated 225 bytes in 95 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 0)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.zMe4hh0kuakM770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.zMe4hh0kuakM770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 8436|app: 0|req: 2/2] 39.176.195.201 () {54 vars in 1443 bytes} [Thu Oct 31 20:39:01 2019] GET /activity_and_prize/create_image_url///home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.zMe4hh0kuakM770b1d57104612ea4de11c84d03d9dc4.png => generated 62781 bytes in 151 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.zMe4hh0kuakM770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.zMe4hh0kuakM770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 8436|app: 0|req: 3/3] 39.176.195.201 () {54 vars in 1432 bytes} [Thu Oct 31 20:39:09 2019] GET /activity_and_prize/create_image_url///home/luckyDraw/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.zMe4hh0kuakM770b1d57104612ea4de11c84d03d9dc4.png => generated 63258 bytes in 66 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 31 20:42:23 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-39) on 31 October 2019 03:36:42
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+writing pidfile to /home/luckyDraw/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/luckyDraw
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.7.4 (default, Oct 31 2019, 10:43:32)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+PEP 405 virtualenv detected: /home/luckyDraw/venv
+Set PythonHome to /home/luckyDraw/venv
+Python main interpreter initialized at 0x182eee0
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 250128 bytes (244 KB) for 4 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x182eee0 pid: 8949 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 8949)
+spawned uWSGI worker 1 (pid: 8951, cores: 2)
+spawned uWSGI worker 2 (pid: 8952, cores: 2)
+[pid: 8951|app: 0|req: 1/1] 39.176.195.201 () {44 vars in 1034 bytes} [Thu Oct 31 20:42:32 2019] POST /activity_and_prize/upload_file_json => generated 216 bytes in 131 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 0)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.NR3hF7oZlNVX770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.NR3hF7oZlNVX770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 8951|app: 0|req: 2/2] 39.176.195.201 () {54 vars in 1425 bytes} [Thu Oct 31 20:42:32 2019] GET /activity_and_prize/create_image_url///home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.NR3hF7oZlNVX770b1d57104612ea4de11c84d03d9dc4.png => generated 62601 bytes in 85 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.NR3hF7oZlNVX770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.NR3hF7oZlNVX770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 8951|app: 0|req: 3/3] 39.176.195.201 () {54 vars in 1414 bytes} [Thu Oct 31 20:42:38 2019] GET /activity_and_prize/create_image_url///home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.NR3hF7oZlNVX770b1d57104612ea4de11c84d03d9dc4.png => generated 63078 bytes in 58 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 31 20:45:23 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-39) on 31 October 2019 03:36:42
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+writing pidfile to /home/luckyDraw/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/luckyDraw
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.7.4 (default, Oct 31 2019, 10:43:32)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+PEP 405 virtualenv detected: /home/luckyDraw/venv
+Set PythonHome to /home/luckyDraw/venv
+Python main interpreter initialized at 0xad6ee0
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 250128 bytes (244 KB) for 4 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0xad6ee0 pid: 9369 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 9369)
+spawned uWSGI worker 1 (pid: 9372, cores: 2)
+spawned uWSGI worker 2 (pid: 9373, cores: 2)
+[pid: 9373|app: 0|req: 1/1] 39.176.195.201 () {44 vars in 1034 bytes} [Thu Oct 31 20:45:33 2019] POST /activity_and_prize/upload_file_json => generated 215 bytes in 122 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 0)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.9X5ebqyx1eC3770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.9X5ebqyx1eC3770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 9373|app: 0|req: 2/2] 39.176.195.201 () {54 vars in 1424 bytes} [Thu Oct 31 20:45:34 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.9X5ebqyx1eC3770b1d57104612ea4de11c84d03d9dc4.png => generated 62600 bytes in 86 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 31 20:54:47 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-39) on 31 October 2019 03:36:42
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+writing pidfile to /home/luckyDraw/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/luckyDraw
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.7.4 (default, Oct 31 2019, 10:43:32)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+PEP 405 virtualenv detected: /home/luckyDraw/venv
+Set PythonHome to /home/luckyDraw/venv
+Python main interpreter initialized at 0x1f2cef0
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 250128 bytes (244 KB) for 4 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x1f2cef0 pid: 10717 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 10717)
+spawned uWSGI worker 1 (pid: 10718, cores: 2)
+spawned uWSGI worker 2 (pid: 10719, cores: 2)
+[pid: 10718|app: 0|req: 1/1] 39.176.195.201 () {44 vars in 1034 bytes} [Thu Oct 31 20:54:54 2019] POST /activity_and_prize/upload_file_json => generated 215 bytes in 86 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 0)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.muQZRZNj78vw770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.muQZRZNj78vw770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 10718|app: 0|req: 2/2] 39.176.195.201 () {54 vars in 1424 bytes} [Thu Oct 31 20:54:54 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.muQZRZNj78vw770b1d57104612ea4de11c84d03d9dc4.png => generated 62600 bytes in 56 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.muQZRZNj78vw770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.muQZRZNj78vw770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 10718|app: 0|req: 3/3] 39.176.195.201 () {54 vars in 1413 bytes} [Thu Oct 31 20:55:20 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.muQZRZNj78vw770b1d57104612ea4de11c84d03d9dc4.png => generated 63077 bytes in 45 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.muQZRZNj78vw770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.muQZRZNj78vw770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 10718|app: 0|req: 4/4] 39.176.195.201 () {54 vars in 1414 bytes} [Thu Oct 31 20:55:59 2019] GET /activity_and_prize/create_image_url///home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.muQZRZNj78vw770b1d57104612ea4de11c84d03d9dc4.png => generated 63078 bytes in 46 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+[pid: 10718|app: 0|req: 5/5] 39.176.195.201 () {44 vars in 1034 bytes} [Thu Oct 31 21:10:22 2019] POST /activity_and_prize/upload_file_json => generated 215 bytes in 2 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 0)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8yrLJMe7dBj3770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8yrLJMe7dBj3770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 10719|app: 0|req: 1/6] 39.176.195.201 () {54 vars in 1424 bytes} [Thu Oct 31 21:10:22 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8yrLJMe7dBj3770b1d57104612ea4de11c84d03d9dc4.png => generated 62600 bytes in 142 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8yrLJMe7dBj3770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8yrLJMe7dBj3770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 10719|app: 0|req: 2/7] 39.176.195.201 () {54 vars in 1413 bytes} [Thu Oct 31 21:10:26 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8yrLJMe7dBj3770b1d57104612ea4de11c84d03d9dc4.png => generated 63077 bytes in 45 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8yrLJMe7dBj3770b1d57104612ea4de11c84d03d9dc4.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8yrLJMe7dBj3770b1d57104612ea4de11c84d03d9dc4.png'
+[pid: 10718|app: 0|req: 6/8] 39.176.195.201 () {54 vars in 1413 bytes} [Thu Oct 31 21:10:56 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.8yrLJMe7dBj3770b1d57104612ea4de11c84d03d9dc4.png => generated 63077 bytes in 39 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+check_token开始运行
+
+check_token运行结束，返回true
+
+[pid: 10718|app: 0|req: 7/9] 39.176.195.201 () {64 vars in 1154 bytes} [Thu Oct 31 21:13:01 2019] POST /user/check_token => generated 4 bytes in 2 msecs (HTTP/1.1 200) 3 headers in 107 bytes (1 switches on core 1)
+[{'activity_id': 1, 'activity_photo': 'uploadfile/2019/10/31/1_1_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.bN9fUaPzhggRfde6d6f13c5cc4438f7afea385fc6e85.jpg', 'activity_sponsor': 'asdf', 'certificate': False, 'activity_end_time': '2019-11-02 00:00', 'prize_of_activity_array': [{'prize_name': '1', 'prize_num': 1}]}]
+[pid: 10718|app: 0|req: 8/10] 39.176.195.201 () {64 vars in 1218 bytes} [Thu Oct 31 21:13:01 2019] POST /activity_and_prize/return_index_activity_main_info => generated 321 bytes in 45 msecs (HTTP/1.1 200) 3 headers in 101 bytes (1 switches on core 1)
+[pid: 10718|app: 0|req: 9/11] 39.176.195.201 () {46 vars in 1223 bytes} [Thu Oct 31 21:13:02 2019] GET /media/uploadfile/2019/10/31/1_1_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.bN9fUaPzhggRfde6d6f13c5cc4438f7afea385fc6e85.jpg => generated 0 bytes in 2 msecs (HTTP/1.1 304) 2 headers in 77 bytes (0 switches on core 0)
+Not Found: /y000000000000.cfg
+[pid: 10718|app: 0|req: 10/12] 182.254.52.17 () {40 vars in 607 bytes} [Thu Oct 31 21:14:52 2019] GET /y000000000000.cfg => generated 2463 bytes in 4 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+check_token开始运行
+
+check_token运行结束，返回true
+
+[pid: 10718|app: 0|req: 11/13] 39.176.195.201 () {64 vars in 1154 bytes} [Thu Oct 31 21:18:49 2019] POST /user/check_token => generated 4 bytes in 1 msecs (HTTP/1.1 200) 3 headers in 107 bytes (1 switches on core 0)
+[{'activity_id': 1, 'activity_photo': 'uploadfile/2019/10/31/1_1_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.bN9fUaPzhggRfde6d6f13c5cc4438f7afea385fc6e85.jpg', 'activity_sponsor': 'asdf', 'certificate': False, 'activity_end_time': '2019-11-02 00:00', 'prize_of_activity_array': [{'prize_name': '1', 'prize_num': 1}]}]
+[pid: 10718|app: 0|req: 12/14] 39.176.195.201 () {64 vars in 1218 bytes} [Thu Oct 31 21:18:50 2019] POST /activity_and_prize/return_index_activity_main_info => generated 321 bytes in 12 msecs (HTTP/1.1 200) 3 headers in 101 bytes (1 switches on core 0)
+check_token开始运行
+
+check_token运行结束，返回true
+
+[pid: 10718|app: 0|req: 13/15] 39.176.195.201 () {64 vars in 1154 bytes} [Thu Oct 31 21:18:54 2019] POST /user/check_token => generated 4 bytes in 1 msecs (HTTP/1.1 200) 3 headers in 107 bytes (1 switches on core 1)
+<class 'str'>
+EncryptedString:
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NzI1NDk4MjAsImlhdCI6MTU3MjUzOTAyMCwiaXNzIjoiY3liIiwiZGF0YSI6eyJpZCI6MSwiT3BlbklkIjoib2tTc0I1WmgxaEowYjRRSnQ3ekhLMVVtZGZwVSJ9fQ.ELmJLpOTHNFkBR5F_K8RNVwz3IS971ge_ya0Kpa1_Pg
+[pid: 10719|app: 0|req: 3/16] 39.176.195.201 () {64 vars in 1184 bytes} [Thu Oct 31 21:18:54 2019] POST /user/return_user_luckyDraw_info => generated 66 bytes in 6 msecs (HTTP/1.1 200) 3 headers in 100 bytes (1 switches on core 0)
+[pid: 10718|app: 0|req: 14/17] 39.176.195.201 () {44 vars in 1034 bytes} [Thu Oct 31 21:19:10 2019] POST /activity_and_prize/upload_file_json => generated 215 bytes in 3 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.rvztFsURZL0j2586c685c0962e3a20c73ba191aec9be.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.rvztFsURZL0j2586c685c0962e3a20c73ba191aec9be.png'
+[pid: 10719|app: 0|req: 4/18] 39.176.195.201 () {54 vars in 1424 bytes} [Thu Oct 31 21:19:10 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.rvztFsURZL0j2586c685c0962e3a20c73ba191aec9be.png => generated 62600 bytes in 49 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.rvztFsURZL0j2586c685c0962e3a20c73ba191aec9be.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.rvztFsURZL0j2586c685c0962e3a20c73ba191aec9be.png'
+[pid: 10718|app: 0|req: 15/19] 39.176.195.201 () {54 vars in 1413 bytes} [Thu Oct 31 21:19:12 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.rvztFsURZL0j2586c685c0962e3a20c73ba191aec9be.png => generated 63077 bytes in 49 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+Not Found: /cache/global/img/gs.gif
+[pid: 10718|app: 0|req: 16/20] 80.82.70.187 () {36 vars in 516 bytes} [Thu Oct 31 21:19:14 2019] GET /cache/global/img/gs.gif => generated 2479 bytes in 4 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.rvztFsURZL0j2586c685c0962e3a20c73ba191aec9be.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.rvztFsURZL0j2586c685c0962e3a20c73ba191aec9be.png'
+[pid: 10718|app: 0|req: 17/21] 39.176.195.201 () {54 vars in 1414 bytes} [Thu Oct 31 21:19:56 2019] GET /activity_and_prize/create_image_url///home/luckyDraw/media/uploadfile/2019/10/31/richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.rvztFsURZL0j2586c685c0962e3a20c73ba191aec9be.png => generated 63078 bytes in 43 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+...brutally killing workers...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+binary reloading uWSGI...
+chdir() to /home/luckyDraw
+closing all non-uwsgi socket fds > 2 (max_fd = 100001)...
+found fd 3 mapped to socket 0 (127.0.0.1:9090)
+running /usr/local/python3/bin/uwsgi
+[uWSGI] getting INI configuration from uwsgi.ini
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 31 21:21:41 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-39) on 31 October 2019 03:36:42
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/luckyDraw
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 inherited INET address 127.0.0.1:9090 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.7.4 (default, Oct 31 2019, 10:43:32)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+PEP 405 virtualenv detected: /home/luckyDraw/venv
+Set PythonHome to /home/luckyDraw/venv
+Python main interpreter initialized at 0x237ba80
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 250128 bytes (244 KB) for 4 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x237ba80 pid: 10717 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+gracefully (RE)spawned uWSGI master process (pid: 10717)
+spawned uWSGI worker 1 (pid: 14646, cores: 2)
+spawned uWSGI worker 2 (pid: 14647, cores: 2)
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 31 21:24:28 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-39) on 31 October 2019 03:36:42
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+writing pidfile to /home/luckyDraw/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/luckyDraw
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.7.4 (default, Oct 31 2019, 10:43:32)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+PEP 405 virtualenv detected: /home/luckyDraw/venv
+Set PythonHome to /home/luckyDraw/venv
+Python main interpreter initialized at 0xc3fe60
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 250128 bytes (244 KB) for 4 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0xc3fe60 pid: 2440 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 2440)
+spawned uWSGI worker 1 (pid: 2441, cores: 2)
+spawned uWSGI worker 2 (pid: 2442, cores: 2)
+[pid: 2441|app: 0|req: 1/1] 39.176.195.201 () {44 vars in 1034 bytes} [Thu Oct 31 21:24:40 2019] POST /activity_and_prize/upload_file_json => generated 214 bytes in 321 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 0)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.WwyCejUFHTFi2586c685c0962e3a20c73ba191aec9be.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.WwyCejUFHTFi2586c685c0962e3a20c73ba191aec9be.png'
+[pid: 2441|app: 0|req: 2/2] 39.176.195.201 () {54 vars in 1422 bytes} [Thu Oct 31 21:24:40 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.WwyCejUFHTFi2586c685c0962e3a20c73ba191aec9be.png => generated 62580 bytes in 129 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.WwyCejUFHTFi2586c685c0962e3a20c73ba191aec9be.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.WwyCejUFHTFi2586c685c0962e3a20c73ba191aec9be.png'
+[pid: 2441|app: 0|req: 3/3] 39.176.195.201 () {54 vars in 1411 bytes} [Thu Oct 31 21:24:43 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.WwyCejUFHTFi2586c685c0962e3a20c73ba191aec9be.png => generated 63057 bytes in 68 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+[pid: 2441|app: 0|req: 4/4] 39.176.195.201 () {44 vars in 1034 bytes} [Thu Oct 31 21:26:30 2019] POST /activity_and_prize/upload_file_json => generated 214 bytes in 3 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.dYAgNvB5WP0r2586c685c0962e3a20c73ba191aec9be.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.dYAgNvB5WP0r2586c685c0962e3a20c73ba191aec9be.png'
+[pid: 2442|app: 0|req: 1/5] 39.176.195.201 () {54 vars in 1422 bytes} [Thu Oct 31 21:26:30 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.dYAgNvB5WP0r2586c685c0962e3a20c73ba191aec9be.png => generated 62580 bytes in 131 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+[pid: 2441|app: 0|req: 5/6] 39.176.195.201 () {56 vars in 1393 bytes} [Thu Oct 31 21:35:43 2019] GET /media/uploadfile/2019/10/31/1_0_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.Yt3gNa0ZZ6B0fde6d6f13c5cc4438f7afea385fc6e85.jpg => generated 3667711 bytes in 24 msecs via sendfile() (HTTP/1.1 200) 4 headers in 145 bytes (0 switches on core 1)
+[pid: 2442|app: 0|req: 2/7] 39.176.195.201 () {54 vars in 1308 bytes} [Thu Oct 31 21:36:18 2019] GET /media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.WwyCejUFHTFi2586c685c0962e3a20c73ba191aec9be.png => generated 384843 bytes in 2 msecs via sendfile() (HTTP/1.1 200) 4 headers in 143 bytes (0 switches on core 1)
+[pid: 2442|app: 0|req: 3/8] 39.176.195.201 () {44 vars in 1034 bytes} [Thu Oct 31 21:37:51 2019] POST /activity_and_prize/upload_file_json => generated 214 bytes in 3 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 1)
+Internal Server Error: /activity_and_prize/create_image_url/home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.Mll4r9p8NJMv2586c685c0962e3a20c73ba191aec9be.png
+Traceback (most recent call last):
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/luckyDraw/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./activity_and_prize/views.py", line 163, in return_image
+    image_data = open(imagepath, "rb").read()
+FileNotFoundError: [Errno 2] No such file or directory: 'home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.Mll4r9p8NJMv2586c685c0962e3a20c73ba191aec9be.png'
+[pid: 2441|app: 0|req: 6/9] 39.176.195.201 () {54 vars in 1422 bytes} [Thu Oct 31 21:37:51 2019] GET /activity_and_prize/create_image_url//home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.Mll4r9p8NJMv2586c685c0962e3a20c73ba191aec9be.png => generated 62580 bytes in 36 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 31 21:38:09 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-39) on 31 October 2019 03:36:42
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+writing pidfile to /home/luckyDraw/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/luckyDraw
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.7.4 (default, Oct 31 2019, 10:43:32)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+PEP 405 virtualenv detected: /home/luckyDraw/venv
+Set PythonHome to /home/luckyDraw/venv
+Python main interpreter initialized at 0x1c4ce60
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 250128 bytes (244 KB) for 4 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x1c4ce60 pid: 4314 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 4314)
+spawned uWSGI worker 1 (pid: 4315, cores: 2)
+spawned uWSGI worker 2 (pid: 4316, cores: 2)
+[pid: 4316|app: 0|req: 1/1] 39.176.195.201 () {44 vars in 1034 bytes} [Thu Oct 31 21:38:17 2019] POST /activity_and_prize/upload_file_json => generated 178 bytes in 101 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 0)
+[pid: 4316|app: 0|req: 2/2] 39.176.195.201 () {54 vars in 1350 bytes} [Thu Oct 31 21:38:18 2019] GET //home/luckyDraw/media/uploadfile/2019/10/31/richtext_wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.ypm9nvxF7fAh2586c685c0962e3a20c73ba191aec9be.png => generated 384843 bytes in 2 msecs via sendfile() (HTTP/1.1 200) 4 headers in 143 bytes (0 switches on core 1)
