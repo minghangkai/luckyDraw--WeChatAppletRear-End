@@ -10,8 +10,8 @@ import time
 
 APPID = 'wx6ac3ca8cc6189b5b'
 MCHID = '1491830732'
-KEY = ''
-NOTIFY_URL = ''
+KEY = 'WUCHUANTONGCHENGWANGsR10280923sR'
+NOTIFY_URL = 'http://www.luckydraw.net.cn/certification/get_pay_info'
 
 def get_user(obj):
     # print(obj)
@@ -43,8 +43,8 @@ def create_dir_according_time():
     year=time.strftime('%Y',time.localtime(time.time()))
     # 月份
     month=time.strftime('%m',time.localtime(time.time()))
-    # 日期
-    # day=time.strftime('%d',time.localtime(time.time()))
+    日期
+    day=time.strftime('%d',time.localtime(time.time()))
     #具体时间 小时分钟毫秒
     mdhms = time.strftime('%m%d%H%M%S',time.localtime(time.time()))
     #print(os.getcwd())
@@ -52,6 +52,7 @@ def create_dir_according_time():
     #print('fileyear'+fileYear)
     fileMonth = fileYear+'/'+month
     #print('filemonth'+fileMonth)
+    fileDay = fileMonth + '/' + day
     fileCertification = fileMonth+'/'+'certification'
     # fileDay=fileMonth+'/'+day
     if not os.path.exists(fileYear):
@@ -59,10 +60,11 @@ def create_dir_according_time():
         os.mkdir(fileYear)
         os.mkdir(fileMonth)
         os.mkdir(fileCertification)
-        # os.mkdir(fileDay)
+        os.mkdir(fileDay)
     else:
       if not os.path.exists(fileMonth):
         print('2')
         os.mkdir(fileMonth)
+        os.mkdir(fileDay)
         os.mkdir(fileCertification)
-    return fileMonth
+    return fileDay

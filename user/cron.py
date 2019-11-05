@@ -26,9 +26,12 @@ def create_dir_according_time():
             os.mkdir(fileDay)
         elif not os.path.exists(fileDay):
             os.mkdir(fileDay)
-    print("自动执行成功")
-    return 0
+    file_name = '/home/luckyDraw/create_dir_according_time.log'
+    with open(file_name, 'a') as file_obj:
+        file_obj.write(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
 
 
 def doprint():
-    print('111111')
+    file_name = '/home/luckyDraw/do_print.log'
+    with open(file_name, 'a') as file_obj:
+        file_obj.write(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))

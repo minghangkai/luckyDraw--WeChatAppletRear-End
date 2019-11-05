@@ -6,7 +6,7 @@ class CertificationInfo(admin.ModelAdmin):
     list_display = ('SponsorRealName', 'CertificateWay', 'IdPhotoPositive_data', 'IdPhotoNegative_data', 'check_color', 'pass_check_color')
     search_fields = ['SponsorRealName', 'CertificateWay', 'check', 'pass_check'] #表示汇总界面可以搜索哪些列
     fieldsets = [
-        ('认证方式及证件类型', {'fields': ['CertificateWay', 'IdType']}),
+        ('认证方式及证件类型', {'fields': ['CertificateWay', 'IdType', 'sign1', 'sign2']}),
         ('证件照片与证件号码', {'fields': ['OrganizationName', 'UnifiedSocialCreditCode', 'LegalRepresentativeName', 'OrganizationIdPhoto_data',
                                          'SponsorRealName', 'IdNumber', 'IdPhotoPositive_data', 'IdPhotoNegative_data',
                                          'PhoneNumber', 'check', 'pass_check']}),

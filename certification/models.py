@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.html import format_html
+from user.models import User
+
 
 # Create your models here.
 class Certification(models.Model):
@@ -15,7 +17,13 @@ class Certification(models.Model):
     IdPhotoNegative         = models.ImageField('个人证件反面', upload_to='uploadfile/%Y/%m/%d/', max_length=400, null=True, blank=True)    # 个人证件反面
     OrganizationName            = models.CharField('组织名称', max_length=200, null=True, blank=True)   # 组织名称
     check = models.BooleanField('是否已经检查', default=False)  # 是否经过后台检查
-    pass_check = models.BooleanField('是否认证成功', default=False) # 是否认证成功
+    pass_check = models.BooleanField('是否认证成功', default=False)  # 是否认证成功
+    payment_order_number = models.CharField('支付订单号', max_length=50, null=True, blank=True) # 支付订单号
+    user = models.ForeignKey('user.User', verbose_name='创建者', on_delete=models.CASCADE, related_name='authenticator',null=True, blank=True)
+    pay_check = models.BooleanField('是否已经支付', default=False)
+    sign1 = models.CharField('第一次签名', max_length=40, null=True, blank=True)
+    sign2 = models.CharField('第二次签名', max_length=40, null=True, blank=True)
+
     def OrganizationIdPhoto_data(self):
         return format_html(
             '<img src="{}" width="400px"/>',

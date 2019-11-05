@@ -7,6 +7,7 @@ import jwt
 import datetime
 import time
 from utils.util import get_user
+from utils.get_phone_number import WXBizDataCrypt
 
 
 
@@ -119,3 +120,26 @@ def return_user_luckyDraw_info(request):
             'WinNum': user.WinNum}
 
     return JsonResponse(data)
+
+
+def get_user_phone_number(request):
+    obj = json.loads(request.body)
+    encryptedData = obj['encryptedData']
+    iv = obj['iv']
+    appid = 'wx6ac3ca8cc6189b5b'
+    app_secret = 'bde0c35566a000030b78d99dbf08bbbe'
+    js_code = json.loads(request.body)  # js_code为dict = {'code': '……'}
+    """print(request.POST)
+    print(type(request.POST))
+    js_code = str(request.body)[2:-1] # request.body为b'code'，类型为bytes，故将其转为string且用字符串方法去掉b''"""
+    # js_code = request.GET.get('code')  # get方法
+    print('code: ' + js_code['code'])
+    url = 'https://api.weixin.qq.com/sns/jscode2session' + '?appid=' + appid + '&secret=' + app_secret + '&js_code=' + \
+          js_code['code'] + '&grant_type=authorization_code'
+    r = requests.get(url)
+    print(r.json())
+    OpenId = r.json()['openid']
+    session_key = r.json()['session_key']
+    pc = WXBizDataCrypt(appid, session_key)#wx_jm(appid, session_key)
+    res = pc.decrypt(encryptedData, iv)
+    return JsonResponse(res)
