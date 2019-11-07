@@ -1,0 +1,14 @@
+*** Starting uWSGI 2.0.18 (64bit) on [Sun Sep 15 17:14:04 2019] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-36) on 09 September 2019 08:36:37
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_6_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /home/luckyDraw
+detected binary path: /usr/local/python3/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/user/www/django项目
+chdir(): No such file or directory [core/uwsgi.c line 2623]
