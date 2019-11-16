@@ -9,4 +9,5 @@ urlpatterns = [
     path('storage_address', views.storage_address, name='storage_address'),
     path('return_user_luckyDraw_info', views.return_user_luckyDraw_info, name='storage_address'),
     path('get_user_phone_number', views.get_user_phone_number, name='get_user_phone_number'),
+    path('customerService', views.customerService, name='customerService'),
 ]

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'user',
     'activity_and_prize',
     'certification',
+    'index',
 ]
 
 MIDDLEWARE = [

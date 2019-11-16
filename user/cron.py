@@ -12,10 +12,11 @@ def create_dir_according_time():
     day=time.strftime('%d',time.localtime(time.time()))
     #具体时间 小时分钟毫秒
     mdhms=time.strftime('%m%d%H%M%S',time.localtime(time.time()))
-    print('1111'+os.getcwd())
-    fileYear=os.getcwd()+'/PycharmProjects/luckyDraw--WeChatAppletRear-End/media/uploadfile'+'/'+year
+    print(os.getcwd())
+    fileYear='/home/luckyDraw/media/uploadfile/'+year
     fileMonth=fileYear+'/'+month
     fileDay=fileMonth+'/'+day
+    print(fileDay)
     if not os.path.exists(fileYear):
       os.mkdir(fileYear)
       os.mkdir(fileMonth)
@@ -28,7 +29,7 @@ def create_dir_according_time():
             os.mkdir(fileDay)
     file_name = '/home/luckyDraw/create_dir_according_time.log'
     with open(file_name, 'a') as file_obj:
-        file_obj.write(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
+        file_obj.write(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
 
 
 def doprint():

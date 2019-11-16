@@ -19,6 +19,7 @@ from django.views.static import serve
 from django.conf import settings
 
 urlpatterns = [
+    path('', include('index.urls')),
     path('admin/', admin.site.urls),
     path('user/', include('user.urls')),
     path('activity_and_prize/', include('activity_and_prize.urls')),

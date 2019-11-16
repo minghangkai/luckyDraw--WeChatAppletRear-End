@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="index_css.css">
+    <meta charset="UTF-8">
+    <title>个人技术分享</title>
+</head>
+<body>
+    <h1 id="h1" style="margin:0 auto; text-align: center; background-color: #447e9b; color: white;">个人技术分享</h1>
+    <div style="width: 150px; margin:0 auto; text-align: center;">
+        <ul style="text-align: left;">
+        {% for topic in latest_topic_list %}
+            <li><a href="{% url 'detail' topic.id %}">{{ topic.topic_name }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+
+
+    <div id="bottom" style="margin:0 auto; text-align: center; color: #222222;">
+        网站备案号：粤ICP备19100399号-1
+    </div>
+</body>
+</html>

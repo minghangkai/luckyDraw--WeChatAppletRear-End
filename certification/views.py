@@ -1,19 +1,13 @@
 import jwt
-import requests
-from django.shortcuts import render
-from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import json
-from utils.util import get_user, create_dir_according_time, APPID, MCHID, KEY, NOTIFY_URL
 from certification.models import Certification
-import hashlib
+from utils.refund import generate_sign, generate_randomStr, get_wx_pay_order_id, send_xml_request1, AESCipher
+from utils.util import get_user, APPID, MCHID, KEY, NOTIFY_URL
 import xmltodict
 import time
-import random
-import string
 from user.models import User
-import datetime
-from django.core import serializers
+import base64
 
 # Create your views here.
 
@@ -28,12 +22,7 @@ def get_orginization_certificate_info(request):
     orginizationName = request.POST.get('orginizationName')
     myFile = request.FILES.get("fileName", None)  # 获取上传的文件，如果没有文件，则默认为None
     myFile.name = '组织认证_' + orginizationName + '_' + myFile.name
-    """filePath = create_dir_according_time() + '/certification/' + myFile.name
-    with open(filePath, 'wb+') as f:
-        # 分块写入文件
-        for chunk in myFile.chunks():
-            f.write(chunk)
-    filePath = host + 'activity_and_prize/create_image_url/' + filePath"""
+
     if certificationKind != 2:
         unifiedSocialCred = request.POST.get('unifiedSocialCred')
         principalName = request.POST.get('principalName')
@@ -127,60 +116,7 @@ def pay(request):
     print(data)
     return JsonResponse(data, safe=False)
 
-# 生成nonce_str
-def generate_randomStr():
-    return ''.join(random.sample(string.ascii_letters + string.digits, 32))
 
-# 生成签名
-def generate_sign(param):
-    stringA = ''
-
-    ks = sorted(param.keys())
-    # 参数排序
-    for k in ks:
-        stringA += k + "=" + str(param[k]) + "&"
-    #拼接商户KEY
-    stringSignTemp = stringA + "key=" + KEY
-
-    # md5加密
-    hash_md5 = hashlib.md5(stringSignTemp.encode('utf8'))
-    sign = hash_md5.hexdigest().upper()
-
-    return sign
-
-
-def trans_dict_to_xml(data):
-    """
-    将 dict 对象转换成微信支付交互所需的 XML 格式数据
-
-    :param data: dict 对象
-    :return: xml 格式数据
-    """
-    xml = []
-    for k in sorted(data.keys()):
-        v = data.get(k)
-        if k == 'detail' and not v.startswith('<![CDATA['):
-            v = '<![CDATA[{}]]>'.format(v)
-        xml.append('<{key}>{value}</{key}>'.format(key=k, value=v))
-    return '<xml>{}</xml>'.format(''.join(xml))
-
-
-# 发送xml请求
-def send_xml_request(url, param):
-    # dict 2 xml
-
-    xml = trans_dict_to_xml(param)
-
-    response = requests.post(url, data=xml.encode('utf-8'), headers={'Content-Type': 'text/xml'})
-    # xml 2 dict
-    msg = response.text
-    xmlmsg = xmltodict.parse(msg)
-
-    return xmlmsg
-
-
-def get_wx_pay_order_id():
-    return str(int(time.time()))
 
 # 统一下单
 def generate_bill(openid, certification):
@@ -202,7 +138,7 @@ def generate_bill(openid, certification):
         "nonce_str": nonce_str,  # 随机字符串
         "body": 'TEST_pay',  # 支付说明
         "out_trade_no": payment_order_number,  # 自己生成的订单号
-        "total_fee": 99,
+        "total_fee": 1,  # 99,
         "spbill_create_ip": '127.0.0.1',  # 发起统一下单的ip
         "notify_url": NOTIFY_URL,
         "trade_type": 'JSAPI',  # 小程序写JSAPI
@@ -210,11 +146,11 @@ def generate_bill(openid, certification):
     }
     # 2. 统一下单签名
     sign = generate_sign(param)
-    certification.sign1 = sign
+    certification.payment_order_number = payment_order_number
     certification.save()
     param["sign"] = sign  # 加入签名
     # 3. 调用接口
-    xmlmsg = send_xml_request(url, param)
+    xmlmsg = send_xml_request1(url, param)
     # xmlmsg['xml']['return_msg']
     if xmlmsg['xml']['return_code'] == 'SUCCESS':
         if xmlmsg['xml']['result_code'] == 'SUCCESS':
@@ -231,8 +167,6 @@ def generate_bill(openid, certification):
                 "timeStamp": timeStamp,
             }  # 6. paySign签名
             paySign = generate_sign(data)
-            certification.sign2 = paySign
-            certification.save()
             data["paySign"] = paySign  # 加入签名
             # 7. 传给前端的签名后的参数
             return data
@@ -242,34 +176,74 @@ def generate_bill(openid, certification):
 def get_pay_info(request):
     msg = request.body.decode('utf-8')
     xmlmsg = xmltodict.parse(msg)
-
+    sign_origin = xmlmsg['xml']['sign']
+    del xmlmsg['xml']['sign']
+    print('xmlmsg:')
+    print(xmlmsg['xml'])
+    sign = generate_sign(xmlmsg['xml'])
+    print('sign:')
+    print(sign)
     return_code = xmlmsg['xml']['return_code']
-
     if return_code == 'FAIL':
+        print('官方回复失败')
         # 官方发出错误
-        return HttpResponse("""<xml><return_code><![CDATA[FAIL]]></return_code>
-                                <return_msg><![CDATA[Signature_Error]]></return_msg></xml>""",
+        return HttpResponse("<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[Signature_Error]]></return_msg></xml>",
                             content_type='text/xml', status=200)
 
     elif return_code == 'SUCCESS':
+        print('官方回复成功')
         # 拿到这次支付的订单号
         out_trade_no = xmlmsg['xml']['out_trade_no']
-        certification = Certification.objects.get(payment_order_number=out_trade_no)
-        print("xmlmsg['xml']['sign']:")
-        print(xmlmsg['xml']['sign'])
-        if xmlmsg['xml']['sign'] != certification.sign2:
+        print('out_trade_no:')
+        print(out_trade_no)
+        if sign_origin != sign:
+            print('sign不相同')
             # 随机字符串不一致
-            return HttpResponse("""<xml><return_code><![CDATA[FAIL]]></return_code>
-                                            <return_msg><![CDATA[Signature_Error]]></return_msg></xml>""",
+            return HttpResponse('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[Signature_Error]]></return_msg></xml>',
                                 content_type='text/xml', status=200)
 
         # 根据需要处理业务逻辑
         else:
+            print('sign相同')
+            certification = Certification.objects.get(payment_order_number=out_trade_no)
             user = certification.user
             user.certificate = True
             user.save()
-            certification.pass_check = True
+            certification.pay_check = True
             certification.save()
-            return HttpResponse("""<xml><return_code><![CDATA[SUCCESS]]></return_code>
-                                            <return_msg><![CDATA[OK]]></return_msg></xml>""",
+            return HttpResponse("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>",
                                 content_type='text/xml', status=200)
+
+
+
+def get_refund_info(request):
+    msg = request.body.decode('utf-8')
+    xmlmsg = xmltodict.parse(msg)
+    print('退款回复API中的xmlmsg：')
+    print(xmlmsg)
+    return_code = xmlmsg['xml']['return_code']
+    if return_code == 'FAIL':
+        print('官方回复失败')
+        # 官方发出错误
+        return HttpResponse(
+            "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[Signature_Error]]></return_msg></xml>",
+            content_type='text/xml', status=200)
+
+    elif return_code == 'SUCCESS':
+        print('官方回复成功')
+        # 拿到这次退款的退款单号
+        pwd = KEY
+        req_info = xmlmsg['xml']['req_info']
+        msg = req_info
+        info = AESCipher(pwd).decrypt(msg)
+        info = xmltodict.parse(info)
+        out_refund_no = info['root']['out_refund_no']
+        print('out_refund_no:')
+        print(out_refund_no)
+        certification = Certification.objects.get(out_refund_no=out_refund_no)
+        certification.out_refund_no = out_refund_no
+        certification.refund_check = True
+        certification.save()
+        return HttpResponse(
+            "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>",
+            content_type='text/xml', status=200)

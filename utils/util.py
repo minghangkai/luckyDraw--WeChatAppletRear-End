@@ -9,9 +9,18 @@ import os
 import time
 
 APPID = 'wx6ac3ca8cc6189b5b'
+APP_SECRET = 'bde0c35566a000030b78d99dbf08bbbe'
 MCHID = '1491830732'
 KEY = 'WUCHUANTONGCHENGWANGsR10280923sR'
 NOTIFY_URL = 'http://www.luckydraw.net.cn/certification/get_pay_info'
+
+#消息推送中的变量设置
+url = 'https://www.luckydraw.net.cn/user/customerService'
+token = 'gDcIOy2NHXrqTRY6C93Lhm7lWMEGoJiQ'
+EncodingAESKey = '3E16LhGIlRbrjVx3qBikgljG15IKBxXbOomlwIXWiAV'
+
+
+
 
 def get_user(obj):
     # print(obj)
@@ -27,6 +36,8 @@ def get_user(obj):
         # print(type(EncryptedString))
         # print(EncryptedString)
         primary_key = (EncryptedString['data'])['id']
+        print('primary_key')
+        print(primary_key)
         # print(type(primary_key))
         # print(primary_key)
         user = User.objects.get(id=primary_key) # 通过openid获取user
@@ -35,36 +46,3 @@ def get_user(obj):
         return user
     except ExpiredSignatureError:
         return False
-
-def create_dir_according_time():
-    localtime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
-    #print('localtime='+localtime)
-    # 系统当前时间年份
-    year=time.strftime('%Y',time.localtime(time.time()))
-    # 月份
-    month=time.strftime('%m',time.localtime(time.time()))
-    日期
-    day=time.strftime('%d',time.localtime(time.time()))
-    #具体时间 小时分钟毫秒
-    mdhms = time.strftime('%m%d%H%M%S',time.localtime(time.time()))
-    #print(os.getcwd())
-    fileYear = os.getcwd()+'/uploadfile'+'/'+year
-    #print('fileyear'+fileYear)
-    fileMonth = fileYear+'/'+month
-    #print('filemonth'+fileMonth)
-    fileDay = fileMonth + '/' + day
-    fileCertification = fileMonth+'/'+'certification'
-    # fileDay=fileMonth+'/'+day
-    if not os.path.exists(fileYear):
-        print('1')
-        os.mkdir(fileYear)
-        os.mkdir(fileMonth)
-        os.mkdir(fileCertification)
-        os.mkdir(fileDay)
-    else:
-      if not os.path.exists(fileMonth):
-        print('2')
-        os.mkdir(fileMonth)
-        os.mkdir(fileDay)
-        os.mkdir(fileCertification)
-    return fileDay

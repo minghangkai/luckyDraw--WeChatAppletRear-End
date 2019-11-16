@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>{{ topic.question_text }}</h1>
+    <ul>
+    {% for article in topic.artile_set.all %}
+        <li>{{ article.article_text }}</li>
+    {% endfor %}
+</ul>
+</body>
+</html>

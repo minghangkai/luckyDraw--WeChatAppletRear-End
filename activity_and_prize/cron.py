@@ -1,5 +1,8 @@
+import requests
 from django.http import HttpResponse, JsonResponse
 import json
+
+from utils.get_AccessToken import get_access_token
 from utils.util import get_user
 from activity_and_prize.models import Activity, Prize, InviteArray, PrizeWinner
 import traceback
@@ -28,7 +31,11 @@ def timed_draw():
                                                    prize=p)
                         prize_winner.save()
                 print('开奖')  # 接入微信通知接口
+                access_token = get_access_token()
+
             e.ActivityEnd = True
             e.save()
         else:
             break
+
+

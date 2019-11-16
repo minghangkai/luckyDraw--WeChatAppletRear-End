@@ -4,6 +4,9 @@ from user.models import User
 
 
 # Create your models here.
+from utils.refund import refund
+
+
 class Certification(models.Model):
     CertificateWay	        = models.SmallIntegerField('认证方式', default=1, null=True, blank=True)  # 认证方式（组织、企业、公众号、个人）
     UnifiedSocialCreditCode	= models.CharField('统一社会信用代码', max_length=18, null=True, blank=True)  # 统一社会信用代码
@@ -19,10 +22,10 @@ class Certification(models.Model):
     check = models.BooleanField('是否已经检查', default=False)  # 是否经过后台检查
     pass_check = models.BooleanField('是否认证成功', default=False)  # 是否认证成功
     payment_order_number = models.CharField('支付订单号', max_length=50, null=True, blank=True) # 支付订单号
+    out_refund_no = models.CharField('退款单号', max_length=64, null=True, blank=True)
     user = models.ForeignKey('user.User', verbose_name='创建者', on_delete=models.CASCADE, related_name='authenticator',null=True, blank=True)
     pay_check = models.BooleanField('是否已经支付', default=False)
-    sign1 = models.CharField('第一次签名', max_length=40, null=True, blank=True)
-    sign2 = models.CharField('第二次签名', max_length=40, null=True, blank=True)
+    refund_check = models.BooleanField('是否已经退款', default=False)
 
     def OrganizationIdPhoto_data(self):
         return format_html(
@@ -54,7 +57,7 @@ class Certification(models.Model):
         )
 
     def pass_check_color(self):
-        if self.pass_check == False:
+        if self.pass_check is False:
             color_code = 'red'
         else:
             color_code = 'green'
@@ -72,3 +75,11 @@ class Certification(models.Model):
 
     def __str__(self):
         return self.SponsorRealName
+
+    def save(self, *args, **kwargs):
+        if self.check is True and self.pass_check is False:
+            print('调用微信退款API')
+            print(type(self))
+            print(self)
+            self.out_refund_no = refund(self.payment_order_number)
+        super().save(*args, **kwargs)

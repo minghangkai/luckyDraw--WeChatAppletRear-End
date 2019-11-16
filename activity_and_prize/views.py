@@ -1,5 +1,8 @@
 from django.http import HttpResponse, JsonResponse
 import json
+
+from utils.get_AccessToken import get_access_token
+from utils.notification import postToUrlOfAllParticipate, postToUrlOfAllParticipate1
 from utils.util import get_user
 from activity_and_prize.models import Activity, Prize, InviteArray
 import datetime
@@ -194,8 +197,8 @@ def return_index_activity_main_info(request):
 
 
 def return_activity_info(request):
-    obj = json.loads(request.body)
-    activity = Activity.objects.get(id=obj['activity_id'])
+    activity_id = request.GET.get('activity_id') #['activity_id']
+    activity = Activity.objects.get(id=activity_id)
     prizes = serializers.serialize("json", activity.prize_set.all())
     if activity.ActivityPhoto == '':
         activity_photo = str(activity.ActivityPhoto)
@@ -222,8 +225,6 @@ def return_activity_info(request):
 def participate_activity(request):
     obj = json.loads(request.body)
     user = get_user(obj)
-    print('user')
-    print(user)
     activity = Activity.objects.get(id=int(obj['activity_id']))
     invite_array = InviteArray(activity=activity, participant=user)
     invite_array.save()
@@ -386,3 +387,14 @@ def return_personal_win_info(request):
                              'prize_of_activity_array': prize_array, 'now_participate_number': e.ConditionNum}
         activity_array.append(dict_activity)
     return JsonResponse(activity_array, safe=False)
+
+
+def test_message(request):
+    obj = json.loads(request.body)
+    user = get_user(obj)
+    print('user.id:')
+    print(user.OpenId)
+    activity = Activity.objects.get(id=int(obj['activity_id']))
+    access_token = get_access_token()
+    postToUrlOfAllParticipate1(activity, user, access_token)
+    return HttpResponse('finish')

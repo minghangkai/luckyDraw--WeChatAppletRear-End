@@ -1,3 +1,6 @@
+import hashlib
+
+import xmltodict
 from django.http import HttpResponse, JsonResponse
 import json
 import requests
@@ -6,14 +9,14 @@ from user.models import User
 import jwt
 import datetime
 import time
-from utils.util import get_user
+from utils.util import get_user, APPID, APP_SECRET
 from utils.get_phone_number import WXBizDataCrypt
 
 
 
 def get_openid_session_key(request): # 获取openid和session_key，创建用户数据，并返回加密token给前端
-    appid = 'wx6ac3ca8cc6189b5b'
-    app_secret = 'bde0c35566a000030b78d99dbf08bbbe'
+    appid = APPID
+    app_secret = APP_SECRET
     primary_key_id = 0  # 记录用户主键
     js_code = json.loads(request.body) # js_code为dict = {'code': '……'}
     """print(request.POST)
@@ -60,7 +63,11 @@ def get_openid_session_key(request): # 获取openid和session_key，创建用户
     #print(s)"""
     print(encrypted_string)
     print('get_openid_session_key运行结束\n')
-    return HttpResponse(encrypted_string)
+    dicIncludeTokenAndUserid = {
+        'token': encrypted_string,
+        'user_id': primary_key_id,
+    }
+    return JsonResponse(dicIncludeTokenAndUserid, safe=False)
 
 
 def check_token(request):
@@ -126,8 +133,8 @@ def get_user_phone_number(request):
     obj = json.loads(request.body)
     encryptedData = obj['encryptedData']
     iv = obj['iv']
-    appid = 'wx6ac3ca8cc6189b5b'
-    app_secret = 'bde0c35566a000030b78d99dbf08bbbe'
+    appid = APPID
+    app_secret = APP_SECRET
     js_code = json.loads(request.body)  # js_code为dict = {'code': '……'}
     """print(request.POST)
     print(type(request.POST))
@@ -143,3 +150,41 @@ def get_user_phone_number(request):
     pc = WXBizDataCrypt(appid, session_key)#wx_jm(appid, session_key)
     res = pc.decrypt(encryptedData, iv)
     return JsonResponse(res)
+
+
+def customerService(request):
+    signature = request.GET["signature"]
+    print('signature:')
+    print(signature)
+    timestamp = request.GET["timestamp"]
+    print('timestamp')
+    print(timestamp)
+    nonce = request.GET["nonce"]
+    print('nonce')
+    print(nonce)
+    echostr = request.GET['echostr']
+    print('echostr')
+    print(echostr)
+    token = 'gDcIOy2NHXrqTRY6C93Lhm7lWMEGoJiQ'
+    param = {
+        'token': token,
+        'timestamp': timestamp,
+        'nonce': nonce,
+    }
+    ks = sorted(param.keys())
+    stringA = ''
+    for k in ks:
+        stringA += str(param[k])
+    print('stringA')
+    print(stringA)
+    tmp_signature = hashlib.sha1(stringA.encode('utf-8')).hexdigest()
+    print('tmp_signature')
+    print(tmp_signature)
+    if tmp_signature == signature:
+        print('tmp_signature == signature')
+        return HttpResponse(echostr)
+        #return JsonResponse(data, safe=False)
+    else:
+        print('tmp_signature != signature')
+        return HttpResponse(echostr)
+        #return JsonResponse(data,safe=False)

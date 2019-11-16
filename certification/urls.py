@@ -10,4 +10,5 @@ urlpatterns = [
     path('get_personal_certificate_info_negative', views.get_personal_certificate_info_negative, name='get_personal_certificate_info_negative'),
     path('pay', views.pay, name='pay'),
     path('get_pay_info', views.get_pay_info, name='get_pay_info'),
+    path('get_refund_info', views.get_refund_info, name='get_refund_info'),
 ]

@@ -1,4 +1,10 @@
 import pymysql
+import django_crontab
+
 pymysql.install_as_MySQLdb()
 
-import django_crontab
+
+def my_callback(sender, **kwargs):
+    print("my_callback")
+    print(sender, kwargs)
+
