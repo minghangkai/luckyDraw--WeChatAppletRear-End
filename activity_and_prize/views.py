@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 import json
-
+from user.models import User
 from utils.get_AccessToken import get_access_token
 from utils.notification import postToUrlOfAllParticipate, postToUrlOfAllParticipate1
 from utils.util import get_user
@@ -199,6 +199,17 @@ def return_index_activity_main_info(request):
 def return_activity_info(request):
     activity_id = request.GET.get('activity_id') #['activity_id']
     activity = Activity.objects.get(id=activity_id)
+    user_id = request.GET.get('user_id')
+    haveParticipate = False
+    try:
+        participant = activity.participate.get(id=user_id)
+    except Exception as e:
+        participant = None
+    if participant:
+        haveParticipate = True
+        print('该用户已经参加该活动\n')
+    else:
+        print('该用户没有参加该活动\n')
     prizes = serializers.serialize("json", activity.prize_set.all())
     if activity.ActivityPhoto == '':
         activity_photo = str(activity.ActivityPhoto)
@@ -213,6 +224,7 @@ def return_activity_info(request):
                         'activity_details': activity.ActivityDetails, 'activity_end_time': str(activity.EndTime)[:-3], # str(e.EndTime)[:-3]
                         'activity_prizes': prizes, 'sponsor_nickname': activity.SponsorNickName,
                         'activity_end': activity.ActivityEnd, 'share_jurisdiction': activity.ShareJurisdiction,
+                        'have_participate': haveParticipate,
                         'participate_avatar_array': participate_avatar_array, 'activity_end': activity.ActivityEnd}
     """print('dict_of_activity:')
     print(type(dict_of_activity))
@@ -224,9 +236,46 @@ def return_activity_info(request):
 
 def participate_activity(request):
     obj = json.loads(request.body)
+    print('participate_activity_obj:')
+    print(str(obj))
     user = get_user(obj)
     activity = Activity.objects.get(id=int(obj['activity_id']))
     invite_array = InviteArray(activity=activity, participant=user)
+    invite_array.save()
+    user.ParticipateActivityNum = user.ParticipateActivityNum + 1
+    user.save()
+    return HttpResponse('用户参与活动成功')
+
+
+def participate_activity_by_share(request):
+    obj = json.loads(request.body)
+    user = get_user(obj)
+    shareUser = User.objects.get(id=int(obj['shareUserId']))
+    activity = Activity.objects.get(id=int(obj['activity_id']))
+    invite_array = InviteArray(activity=activity, participant=user)
+    invite_array_share = InviteArray.objects.get(activity=activity, participant=shareUser)
+    invite_num = invite_array_share.invite_num
+    if invite_num <= 5:
+        print('invite_num<=5')
+        print(invite_num)
+        if invite_num == 0:
+            print('invite_num=0')
+            invite_array_share.invite_1 = shareUser
+        elif invite_num == 1:
+            print('invite_num=1')
+            invite_array_share.invite_2 = shareUser
+        elif invite_num == 2:
+            print('invite_num=2')
+            invite_array_share.invite_3 = shareUser
+        elif invite_num == 3:
+            print('invite_num=3')
+            invite_array_share.invite_4 = shareUser
+        elif invite_num == 4:
+            print('invite_num=4')
+            invite_array_share.invite_5 = shareUser
+        print('已经将用户赋予invite_n')
+        invite_array_share.invite_num = invite_num + 1
+        invite_array_share.save()
     invite_array.save()
     user.ParticipateActivityNum = user.ParticipateActivityNum + 1
     user.save()

@@ -11,6 +11,7 @@ urlpatterns = [
     path('create_image_url/<path:imagepath>', views.return_image, name='create_image_url'),
     path('return_activity_info', views.return_activity_info, name='return_activity_info'),
     path('participate_activity', views.participate_activity, name='participate_activity'),
+    path('participate_activity_by_share', views.participate_activity_by_share, name='participate_activity_by_share'),
     path('return_personal_paticipate_info', views.return_personal_paticipate_info ,name='return_personal_paticipate_info'),
     path('return_personal_create_info', views.return_personal_create_info ,name='return_personal_create_info'),
     path('return_personal_win_info', views.return_personal_win_info, name='return_personal_win_info'),

@@ -18,5 +18,5 @@ class User(models.Model):
     ParticipateActivityNum = models.PositiveSmallIntegerField(default=0, null=True)  # 用户参与的活动数
     WinNum = models.PositiveSmallIntegerField(default=0, null=True)  # 用户的中奖数
 
-    #def __str__(self):
-     #   return self.UserName
+    def __str__(self):
+        return str(self.UserName)
