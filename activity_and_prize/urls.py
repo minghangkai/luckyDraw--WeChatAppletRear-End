@@ -16,6 +16,9 @@ urlpatterns = [
     path('return_personal_create_info', views.return_personal_create_info ,name='return_personal_create_info'),
     path('return_personal_win_info', views.return_personal_win_info, name='return_personal_win_info'),
     path('test_message', views.test_message, name='test_message'),
+    path('return_qiniu_upload_token', views.return_qiniu_upload_token, name='return_qiniu_upload_token'),
+    path('get_qiniu_info', views.get_qiniu_info, name='get_qiniu_info'),
+    #path('', views., name=''),
 ]
 
 #http://127.0.0.1:8000/activity_and_prize/create_image_url//Users/apple/PycharmProjects/luckyDraw--WeChatAppletRear-End/media/uploadfile/2019/10/31/richtext_richtext__wx6ac3ca8cc6189b5b.o6zAJs-4EoVuB_dbionVOX2wp3x8.n5taKJeFOKJP2457b75be1163444072681dd518a1d83.png

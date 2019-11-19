@@ -1,9 +1,10 @@
+import qiniu
 from django.http import HttpResponse, JsonResponse
 import json
 from user.models import User
 from utils.get_AccessToken import get_access_token
 from utils.notification import postToUrlOfAllParticipate, postToUrlOfAllParticipate1
-from utils.util import get_user
+from utils.util import get_user, AccessKey, SecretKey
 from activity_and_prize.models import Activity, Prize, InviteArray
 import datetime
 import os
@@ -447,3 +448,25 @@ def test_message(request):
     access_token = get_access_token()
     postToUrlOfAllParticipate1(activity, user, access_token)
     return HttpResponse('finish')
+
+
+def return_qiniu_upload_token(request):
+    bucket = "miniprogram-luckydraw"  # 上传的空间名
+    key = ""  # 上传的文件名，默认为空
+    auth = qiniu.Auth(AccessKey, SecretKey)
+    policy = {
+        "mimeLimit": "image/*"
+    }
+    upToken = auth.upload_token(bucket, policy=policy)  # 生成上传凭证
+    #upToken = auth.upload_token(bucket)  # 生成上传凭证
+    print('upToken:')
+    print(upToken)
+    data = {"uptoken": upToken}
+    return JsonResponse(data, safe=False)
+
+def get_qiniu_info(request):
+    print('执行get_qiniu_info函数')
+    info = request.body
+    print('info:')
+    print(info)
+    return HttpResponse('success')
