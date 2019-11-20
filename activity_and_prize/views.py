@@ -16,18 +16,6 @@ host = 'https://www.luckydraw.net.cn/'
 # Create your views here.
 
 
-def upload_file_json(request):
-    myFile = request.FILES.get("fileName", None)
-    myFile.name = 'richtext_' + myFile.name
-    localtime = time.strftime('/%Y/%m/%d/', time.localtime(time.time()))
-    filePath = os.getcwd() + '/media/uploadfile' + localtime + myFile.name  # 需要等待自动任务函数才真正能用
-    with open(filePath, 'wb+') as f:
-        # 分块写入文件
-        for chunk in myFile.chunks():
-            f.write(chunk)
-    url = host + filePath
-    return HttpResponse(url)
-
 
 def get_activity_info(request):
     obj = json.loads(request.body)
@@ -71,6 +59,7 @@ def get_activity_info(request):
             activity.ActivityDetails = activityDetails
             activity.save()
         elif sponsorWay == 2:
+            activity.ActivityPhoto = obj['srcOfHeadImage']
             activity.ActivityDetails = obj['infoOfActivity']
             # print(type(activity.ActivityDetails))
             # print(activity.ActivityDetails)
@@ -82,6 +71,7 @@ def get_activity_info(request):
             activity.InputCommandOrNot = obj['inputCommandOrNot']
             activity.save()
         elif sponsorWay == 3:
+            activity.ActivityPhoto = obj['srcOfHeadImage']
             activity.ActivityDetails = obj['infoOfActivity']
             # print(type(activity.ActivityDetails))
             # print(activity.ActivityDetails)
@@ -91,6 +81,7 @@ def get_activity_info(request):
             activity.AllowQuitOrNot = obj['allowQuitOrNot']
             activity.save()
         elif sponsorWay == 4:
+            activity.ActivityPhoto = obj['srcOfHeadImage']
             activity.ActivityDetails = obj['infoOfActivity']
             # print(type(activity.ActivityDetails))
             # print(activity.ActivityDetails)
@@ -101,65 +92,25 @@ def get_activity_info(request):
             activity.WinnerList = obj['winnerList']
             activity.save()
         primary_key_of_activity = activity.id
-        ImageArray = obj['imageArray']
+        prizeImageArray = obj['imageArray']
+        prizeImageArrayLen = len(prizeImageArray)
         primary_key_of_prize = []
-        for index in range(len(ImageArray)):
+        for index in range(prizeImageArrayLen):
             if sponsorWay == 4:
-                prize = Prize(PrizeName=ImageArray[index]['nameOfPrize'],
-                              PrizeNumber=ImageArray[index]['numberOfPrize'],
-                              WinningProbability=ImageArray[index]['probity'],
+                prize = Prize(PrizeName=prizeImageArray[index]['nameOfPrize'],
+                              PrizeNumber=prizeImageArray[index]['numberOfPrize'],
+                              PrizePhoto=prizeImageArray[index]['imageSrc'],
+                              WinningProbability=prizeImageArray[index]['probity'],
                               activity=activity)
             else:
-                prize = Prize(PrizeName=ImageArray[index]['nameOfPrize'],
-                              PrizeNumber=ImageArray[index]['numberOfPrize'],
+                prize = Prize(PrizeName=prizeImageArray[index]['nameOfPrize'],
+                              PrizeNumber=prizeImageArray[index]['numberOfPrize'],
+                              PrizePhoto=prizeImageArray[index]['imageSrc'],
                               activity=activity)
             prize.save()
-            primary_key_of_prize.append(prize.id)
-        data = {'prizeLen': len(ImageArray),
-                'activityId': primary_key_of_activity,
-                'prizeId': primary_key_of_prize,}
-        # print('primary_key_of_activity' + str(primary_key_of_activity))
         user.CreateActivityNum = user.CreateActivityNum + 1
         user.save()
-        return JsonResponse(data)
-
-
-def get_prize_info(request):
-    newBy = int(request.POST.get('newBy'))
-    activityId = request.POST.get('activityId')
-    prizeId = request.POST.get('prizeId')
-    myFile = request.FILES.get("fileName", None)
-    myFile.name = activityId + '_' + prizeId + '_' + myFile.name
-    prizeId = int(prizeId)
-    activityId = int(activityId)
-    if newBy == 1:
-        activity = Activity.objects.get(id=activityId)
-        activity.activityPhoto = ''
-        activity.save()
-        # Prize.objects.filter(id=prizeId).update(PrizePhoto=myFile, activity=activity)
-        # prize(prizePhoto=myFile)
-        prize = Prize.objects.get(activity=activity)
-        prize.prizePhoto = myFile
-        prize.activity = activity
-        prize.save()
-        return HttpResponse('存储奖品图成功')
-    else:
-        activity = Activity.objects.get(id=activityId)
-        if prizeId == 0:
-            # Activity.objects.get(id=activityId).update(ActivityPhoto=myFile)
-            activity.ActivityPhoto = myFile
-            activity.save()
-            print('存储活动头图成功')
-            return HttpResponse('存储活动头图成功')
-        else:
-            prize = Prize.objects.get(id=prizeId) #.update(PrizePhoto=myFile, activity=activity)
-            prize.PrizePhoto = myFile
-            prize.activity = activity
-            prize.save()
-            print('存储奖品图成功')
-            return HttpResponse('存储奖品图成功')
-
-    #         var filesrc = util.fileUpload('luckyDraw_1/upload_file', res.tempFilePaths[0], 'fileName') 前端请求
+        return HttpResponse('上传活动信息成功')
 
 
 def return_image(request, imagepath):

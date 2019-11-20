@@ -8,7 +8,8 @@ class Activity(models.Model):
     certificate	  = models.BooleanField('活动创建人是否认证', default=False, null=True, blank=True)   # 活动创建人是否认证
     SponsorWay	          = models.SmallIntegerField('活动创建方式', default=1, null=True, blank=True)  # 活动创建方式：快速、高级、公众号、转盘
     ActivityName	      = models.CharField('活动名称', max_length=60, null=True, blank=True)  # 活动名称
-    ActivityPhoto	      = models.ImageField('活动头图', upload_to='uploadfile/%Y/%m/%d/', max_length=255, null=True, blank=True) # 活动头图
+    #ActivityPhoto	      = models.ImageField('活动头图', upload_to='uploadfile/%Y/%m/%d/', max_length=255, null=True, blank=True) # 活动头图
+    ActivityPhoto	      = models.URLField('活动头图', max_length=255, null=True, blank=True) # 活动头图
     ActivityDetails	      = JSONField('活动介绍', null=True, blank=True)    # 活动介绍
     StartTime             = models.DateTimeField('活动开始时间', auto_now=True, null=True, blank=True)  # 活动开始时间
     EndTime               = models.DateTimeField('活动结束时间', null=True, blank=True) # 活动结束时间
@@ -36,7 +37,8 @@ class Activity(models.Model):
 
 
 class Prize(models.Model):
-    PrizePhoto         = models.ImageField('奖品图片', upload_to='uploadfile/%Y/%m/%d/', max_length=255, null=True)
+    PrizePhoto         = models.URLField('奖品图片', max_length=255, null=True, blank=True)
+    #PrizePhoto         = models.ImageField('奖品图片', upload_to='uploadfile/%Y/%m/%d/', max_length=255, null=True)
     PrizeName          = models.CharField('奖品名称', max_length=60, null=True)
     PrizeNumber	       = models.PositiveSmallIntegerField('奖品数量', default=1, null=True)
     WinningProbability = models.DecimalField('中奖概率', max_digits=6,decimal_places=3, null=True)
