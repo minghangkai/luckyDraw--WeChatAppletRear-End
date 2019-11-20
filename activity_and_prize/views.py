@@ -7,8 +7,6 @@ from utils.notification import postToUrlOfAllParticipate, postToUrlOfAllParticip
 from utils.util import get_user, AccessKey, SecretKey
 from activity_and_prize.models import Activity, Prize, InviteArray
 import datetime
-import os
-import time
 from django.core import serializers
 
 #host = 'http://127.0.0.1:8000/'
