@@ -1,7 +1,6 @@
 from django.db import models
 from django_mysql.models import JSONField
 from user.models import User
-from django.utils.html import format_html
 # Create your models here.
 class Activity(models.Model):
     sponsor               = models.ForeignKey('user.User', verbose_name='创建者', on_delete=models.CASCADE, related_name='sponsor', blank=True) #连接用户表
