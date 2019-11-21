@@ -16,6 +16,7 @@ urlpatterns = [
     path('test_message', views.test_message, name='test_message'),
     path('return_qiniu_upload_token', views.return_qiniu_upload_token, name='return_qiniu_upload_token'),
     path('get_qiniu_info', views.get_qiniu_info, name='get_qiniu_info'),
+    path('return_miniprogram_wxacode', views.return_miniprogram_wxacode, name='return_miniprogram_wxacode'),
     #path('', views., name=''),
 ]
 

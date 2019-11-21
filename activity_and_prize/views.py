@@ -1,9 +1,10 @@
 import qiniu
+import requests
 from django.http import HttpResponse, JsonResponse
 import json
 from user.models import User
 from utils.get_AccessToken import get_access_token
-from utils.notification import postToUrlOfAllParticipate, postToUrlOfAllParticipate1
+from utils.notification import postToUrlOfAllParticipate
 from utils.util import get_user, AccessKey, SecretKey
 from activity_and_prize.models import Activity, Prize, InviteArray
 import datetime
@@ -389,13 +390,14 @@ def return_personal_win_info(request):
 
 
 def test_message(request):
+    print('test_message函数执行')
     obj = json.loads(request.body)
     user = get_user(obj)
     print('user.id:')
     print(user.OpenId)
     activity = Activity.objects.get(id=int(obj['activity_id']))
     access_token = get_access_token()
-    postToUrlOfAllParticipate1(activity, user, access_token)
+    postToUrlOfAllParticipate(activity, user, access_token)
     return HttpResponse('finish')
 
 
@@ -419,3 +421,36 @@ def get_qiniu_info(request):
     print('info:')
     print(info)
     return HttpResponse('success')
+
+
+def return_miniprogram_wxacode(request):
+    obj = json.loads(request.body)
+    activityId = str(obj['activityId'])
+    shareUserId = str(obj['shareUserId'])  # 创建该活动分享的用户在数据库的主键id
+    accessToken = get_access_token()
+    url = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + accessToken
+    params = {
+        'scene': 'activityId:' + activityId + ',shareUserId:' + shareUserId,   # 'activityId=1&shareUserId=2',
+        #'page': "pages/activityInfo/activityInfo",  # 'pages/activityInfo/activityInfo',
+        'width': 100,
+        'is_hyaline': True
+    }
+    paramsJson = json.dumps(params)
+    wxacode = requests.post(url=url, data=paramsJson)  # 获得二维码图片的二进制数据
+    print('type(wxacode.text)')
+    print(type(wxacode.content))
+    bucket = "miniprogram-luckydraw"  # 上传的空间名
+    key = activityId + '_' + shareUserId + "_wxacode"  # 上传的文件名，默认为空
+    auth = qiniu.Auth(AccessKey, SecretKey)
+    policy = {
+        "mimeLimit": "image/*"
+    }
+    upToken = auth.upload_token(bucket, policy=policy)  # 生成上传凭证
+    ret, info = qiniu.put_data(upToken, key, wxacode.content)
+    print(info)
+
+    # assert ret['key'] == key
+    # assert ret['hash'] == qiniu.etag(wxacode)
+    wxacodeUrl = "https://images.luckydraw.net.cn/" + key
+
+    return HttpResponse(wxacodeUrl)
