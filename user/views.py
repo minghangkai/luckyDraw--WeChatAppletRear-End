@@ -23,7 +23,6 @@ def get_openid_session_key(request): # 获取openid和session_key，创建用户
     print(type(request.POST))
     js_code = str(request.body)[2:-1] # request.body为b'code'，类型为bytes，故将其转为string且用字符串方法去掉b''"""
     #js_code = request.GET.get('code')  # get方法
-    print('code: ' + js_code['code'])
     url = 'https://api.weixin.qq.com/sns/jscode2session' + '?appid=' + appid + '&secret=' + app_secret + '&js_code=' + \
           js_code['code'] + '&grant_type=authorization_code'
     r = requests.get(url)
